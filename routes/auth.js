@@ -13,7 +13,7 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips} = require('../controllers/trips');
 
-const {addPhotosVideo} = require('../controllers/managePhotoVideo');
+const {addPhotosVideo, getArchived} = require('../controllers/managePhotoVideo');
   
   const fileFilter = (req, file, cb) => {
     // reject a file
@@ -74,7 +74,8 @@ router.get('/admin/get/trips', requireSigninUser, getAllTrips);
 router.get('/admin/get/one/trips', requireSigninUser, getOneTrips);
 router.put('/admin/update/trips', requireSigninUser, updateOneTrips);
 
-//router.put('/admin/post/video-photo', requireSigninUser, upload.single('image'),addPhotosVideo);
+router.post('/admin/post/video-photo', requireSigninUser, addPhotosVideo);
+router.get('/admin/get/video-photo', requireSigninUser, getArchived);
 
 
 

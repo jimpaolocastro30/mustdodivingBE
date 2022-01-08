@@ -1,68 +1,100 @@
-const trips = require('../models/managePhotoVideo');
-var moment = require("moment");
-var _ = require("lodash");
-require('dotenv').config()
-const fs = require('fs')
-const S3 = require('aws-sdk/clients/s3')
+// const mPv = require('../models/managePhotoVideo');
+// var moment = require("moment");
+ var _ = require("lodash");
+// const fs = require('fs')
+// const util = require('util')
+// const unlinkFile = util.promisify(fs.unlink)
 
-const bucketName = process.env.AWS_BUCKET_NAME
-const region = process.env.AWS_BUCKET_REGION
-const accessKeyId = process.env.AWS_ACCESS_KEY
-const secretAccessKey = process.env.AWS_SECRET_KEY
+// const { uploadFile, getFileStream } = require('./s3')
 
-const s3 = new S3({
-  region,
-  accessKeyId,
-  secretAccessKey
-})
+// exports.addPhotosVideo = (req, res) => {
 
-// uploads a file to s3
-function uploadFile(file) {
-  const fileStream = fs.createReadStream(file.path)
-
-  const uploadParams = {
-    Bucket: bucketName,
-    Body: fileStream,
-    Key: file.filename
-  }
-
-  return s3.upload(uploadParams).promise()
-}
-exports.uploadFile = uploadFile
+//   let DateCreated = new Date();
+//   const file = req.file
+//   console.log(file)
+// //   const { animals, location, yearType,Trips } = req.text;
+// const animals = req.body.animals;
+// const location = req.body.location;
+// const yearType = req.body.yearType;
+// const Trips = req.body.Trips;
 
 
-// downloads a file from s3
-function getFileStream(fileKey) {
-  const downloadParams = {
-    Key: fileKey,
-    Bucket: bucketName
-  }
+//   const result = uploadFile(file)
+//  unlinkFile(file.path)
+//   console.log(result)
+//   res.send({imagePath: `/images/${result.Key}`})
+//   const photosVideo = `/images/${result.Key}`
 
-  return s3.getObject(downloadParams).createReadStream()
-}
-exports.getFileStream = getFileStream
+//   let mpv = new mPv({photosVideo, animals, location, yearType,Trips, DateCreated});
+
+
+//   mpv.save((err, data) => {
+//       console.log("check" + err)
+//       if (err) {
+//           return res.status(400).json({
+//               error: err.errmsg
+//           });
+//       }
+
+//       res.json("image/video added! " + photosVideo); // dont do this res.json({ tag: data });
+//   });
+// };
 
 
 
-exports.addMainTrips = (req, res) => {
+const aws = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
-  var transactionPrefix = "trips";
-  var tripId = transactionPrefix + moment().format("x");
-  let DateCreated = new Date();
+const User = require("../models/managePhotoVideo");
 
-  const { tripName, month, year } = req.body;
-  let tripss = new trips({tripId, tripName, month, year, DateCreated});
-
-
-  tripss.save((err, data) => {
-      console.log("check" + err)
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
-
-      res.json("animal added! " + tripName); // dont do this res.json({ tag: data });
+const s3 = new aws.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: process.env.AWS_BUCKET_REGION,
   });
-};
+  
+  const upload = (bucketName) =>
+    multer({
+      storage: multerS3({
+        s3,
+        bucket: bucketName,
+        metadata: function (req, file, cb) {
+          cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+          cb(null, `image-${Date.now()}.jpeg`);
+        },
+      }),
+    });
+  
+  exports.addPhotosVideo = (req, res, next) => {
+    const uploadSingle = upload("mdodive").single(
+      "croppedImage"
+    );
+  
+    uploadSingle(req, res, async (err) => {
+      if (err)
+        return res.status(400).json({ success: false, message: err.message });
+  
+      await User.create({ photosVideo: req.file.location, animals: req.body.animals, location: req.body.location, yearType: req.body.yearType, Types: req.body.Types});
+  
+      res.status(200).json({ data: req.file.location });
+    });
+  };
 
+  
+exports.getArchived = (req, res) => {
+    User.find(
+      { 
+      }
+    ).exec((err, tag) => {
+          if (_.isEmpty(tag)) {
+              return res.status(400).json({
+                  error: 'lookup not found'
+              });
+          }
+          res.json({ "identifier": "Get archives", tag});
+      });
+  
+  };

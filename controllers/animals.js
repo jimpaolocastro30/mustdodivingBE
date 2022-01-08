@@ -63,7 +63,7 @@ animal.updateOne(myquery, newV).exec((err, tag) => {
             error: 'cant update Animals'
         });
     }
-    res.json("Message: Successfully updated Animals " + slug);
+    res.json("Message: Successfully updated Animals " + animalId);
 });
 };
 

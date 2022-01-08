@@ -1,0 +1,12 @@
+{
+    "useHttps": true,
+    "video": {
+        "host": "localhost",
+        "port": 3000
+    },
+    "peers": {
+        "host": "localhost",
+        "port": 3001
+    }
+    
+}

@@ -13,16 +13,7 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips} = require('../controllers/trips');
 
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-      const now = new Date().toISOString();
-      const date = now.replace(/:/g, '-');
-      cb(null, date + file.originalname);
-    }
-  });
+const {addPhotosVideo} = require('../controllers/managePhotoVideo');
   
   const fileFilter = (req, file, cb) => {
     // reject a file
@@ -33,13 +24,12 @@ const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips} = require('../con
     }
   };
   
-  const upload = multer({
-    storage: storage,
-    limits: {
-      fileSize: 1024 * 1024 * 5
-    },
-    fileFilter: fileFilter
-  });
+  const upload = multer({limits: {
+
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter,
+  dest: 'uploads/' })
 
 
 // validators
@@ -59,8 +49,8 @@ router.put('/user/change-password', resetPasswordUser);
 
 router.post('/admin/add/animal', requireSigninUser, addMainAnimal);
 router.get('/admin/get/query/animal', requireSigninUser, getAllAnimals);
-router.get('/admin/get/one/animal/:slug', requireSigninUser, getOneAnimals);
-router.put('/admin/update/animal/:slug', requireSigninUser, updateOneAnimals);
+router.get('/admin/get/one/animal', requireSigninUser, getOneAnimals);
+router.put('/admin/update/animal', requireSigninUser, updateOneAnimals);
 
 
 router.post('/admin/add/sub/animal', requireSigninUser, addSubAnimal);
@@ -83,6 +73,9 @@ router.post('/admin/add/trips', requireSigninUser, addMainTrips);
 router.get('/admin/get/trips', requireSigninUser, getAllTrips);
 router.get('/admin/get/one/trips', requireSigninUser, getOneTrips);
 router.put('/admin/update/trips', requireSigninUser, updateOneTrips);
+
+//router.put('/admin/post/video-photo', requireSigninUser, upload.single('image'),addPhotosVideo);
+
 
 
 router.post('/admin/add/user', requireSigninUser, adminMiddleware, signup);

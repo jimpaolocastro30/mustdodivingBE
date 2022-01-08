@@ -1,6 +1,48 @@
-const trips = require('../models/trips');
+const trips = require('../models/managePhotoVideo');
 var moment = require("moment");
 var _ = require("lodash");
+require('dotenv').config()
+const fs = require('fs')
+const S3 = require('aws-sdk/clients/s3')
+
+const bucketName = process.env.AWS_BUCKET_NAME
+const region = process.env.AWS_BUCKET_REGION
+const accessKeyId = process.env.AWS_ACCESS_KEY
+const secretAccessKey = process.env.AWS_SECRET_KEY
+
+const s3 = new S3({
+  region,
+  accessKeyId,
+  secretAccessKey
+})
+
+// uploads a file to s3
+function uploadFile(file) {
+  const fileStream = fs.createReadStream(file.path)
+
+  const uploadParams = {
+    Bucket: bucketName,
+    Body: fileStream,
+    Key: file.filename
+  }
+
+  return s3.upload(uploadParams).promise()
+}
+exports.uploadFile = uploadFile
+
+
+// downloads a file from s3
+function getFileStream(fileKey) {
+  const downloadParams = {
+    Key: fileKey,
+    Bucket: bucketName
+  }
+
+  return s3.getObject(downloadParams).createReadStream()
+}
+exports.getFileStream = getFileStream
+
+
 
 exports.addMainTrips = (req, res) => {
 
@@ -24,44 +66,3 @@ exports.addMainTrips = (req, res) => {
   });
 };
 
-exports.getAllTrips = (req, res) => {
-   
-  trips.find({}).exec((err, tag) => {
-        if (_.isEmpty(tag)) {
-            return res.status(400).json({
-                error: 'lookup not found'
-            });
-        }
-        res.json({ "identifier": "GetAll-Trips", tag});
-    });
-
-};
-
-exports.getOneTrips = (req, res) => {
-const tripId = req.query.tripId;
-
-trips.findOne({ tripId: tripId }).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'product not found'
-        });
-        
-    }
-    res.json({ "identifier": "Get One Trips", tag});
-});
-};
-
-exports.updateOneTrips = (req, res) => {
- const tripId = req.query.tripId;
-var myquery = { tripId: tripId }
-var newV = req.body;
-
-trips.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'cant update Trips'
-        });
-    }
-    res.json("Message: Successfully updated Trips " + tripId);
-});
-};

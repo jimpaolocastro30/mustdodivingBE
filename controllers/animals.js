@@ -39,9 +39,9 @@ exports.getAllAnimals = (req, res) => {
 };
 
 exports.getOneAnimals = (req, res) => {
-const slug = req.params.slug.toLowerCase();
-console.log("dasdas " + slug)
-animal.findOne({ _id : slug }).exec((err, tag) => {
+var animalId = req.query.animalId;
+console.log("dasdas " + animalId)
+animal.findOne({ animalsId: animalId }).exec((err, tag) => {
     if (err) {
         return res.status(400).json({
             error: 'product not found'
@@ -53,8 +53,8 @@ animal.findOne({ _id : slug }).exec((err, tag) => {
 };
 
 exports.updateOneAnimals = (req, res) => {
-const slug = req.params.slug.toLowerCase();
-var myquery = { _id: slug }
+  var animalId = req.query.animalId;
+var myquery = { animalsId: animalId }
 var newV = req.body;
 
 animal.updateOne(myquery, newV).exec((err, tag) => {

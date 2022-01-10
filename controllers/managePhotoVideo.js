@@ -74,7 +74,7 @@ const s3 = new aws.S3({
 
     if(isVideo == 1){
    
-      let videos = new User({video});
+      let videos = new User({ photosVideo: video});
 
       videos.save((err, data) => {
         console.log("check" + err)

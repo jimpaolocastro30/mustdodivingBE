@@ -1,5 +1,5 @@
 // const mPv = require('../models/managePhotoVideo');
-// var moment = require("moment");
+var moment = require("moment");
  var _ = require("lodash");
 // const fs = require('fs')
 // const util = require('util')
@@ -71,10 +71,19 @@ const s3 = new aws.S3({
   exports.addPhotosVideo = (req, res, next) => {
     var isVideo = req.query.isVideo;
     const { video } = req.body;
+    //let Datesd = new Date();
 
+
+   // let DateCreated = moment().format('MMMM Do YYYY, h:mm:ss a');
+   let DateCreated = moment().format('l');
+   DateCreated = new Date(
+    `${DateCreated.split('/')[2]}-${DateCreated.split('/')[0]}-${DateCreated.split('/')[1]}`,
+ );
+
+    console.log("dasdada " + DateCreated)
     if(isVideo == 1){
 
-      let videos = new User({ photosVideo: video, isVideo: 1});
+      let videos = new User({ photosVideo: video, isVideo: 1, DateCreated: DateCreated});
 
       videos.save((err, data) => {
         console.log("check" + err)
@@ -96,7 +105,7 @@ const s3 = new aws.S3({
         if (err)
           return res.status(400).json({ success: false, message: err.message });
     
-        await User.create({ photosVideo: req.file.location , isVideo: 0});
+        await User.create({ photosVideo: req.file.location , isVideo: 0, DateCreated: DateCreated});
     
         res.status(200).json({ data: req.file.location });
       });
@@ -107,10 +116,10 @@ const s3 = new aws.S3({
 
   
 exports.getArchived = (req, res) => {
-    User.find(
-      { 
-      }
-    ).exec((err, tag) => {
+
+  const pagination = req.query.pagination ? parseInt(req.query.pagination) : 20;
+    console.log("dasdadsa " + pagination)
+    User.find({}).sort({ "_id": -1 }).limit(pagination).exec((err, tag) => {
           if (_.isEmpty(tag)) {
               return res.status(400).json({
                   error: 'lookup not found'

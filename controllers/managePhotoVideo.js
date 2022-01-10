@@ -73,8 +73,8 @@ const s3 = new aws.S3({
     const { video } = req.body;
 
     if(isVideo == 1){
-   
-      let videos = new User({ photosVideo: video});
+
+      let videos = new User({ photosVideo: video, isVideo: 1});
 
       videos.save((err, data) => {
         console.log("check" + err)
@@ -96,7 +96,7 @@ const s3 = new aws.S3({
         if (err)
           return res.status(400).json({ success: false, message: err.message });
     
-        await User.create({ photosVideo: req.file.location });
+        await User.create({ photosVideo: req.file.location , isVideo: 0});
     
         res.status(200).json({ data: req.file.location });
       });

@@ -69,19 +69,41 @@ const s3 = new aws.S3({
     });
   
   exports.addPhotosVideo = (req, res, next) => {
-    const uploadSingle = upload("mdodive").single(
-      "croppedImage"
-    );
+    var isVideo = req.query.isVideo;
+    const { video } = req.body;
+
+    if(isVideo == 1){
+   
+      let videos = new User({video});
+
+      videos.save((err, data) => {
+        console.log("check" + err)
+        if (err) {
+            return res.status(400).json({
+                error: err.errmsg
+            });
+        }
   
-    uploadSingle(req, res, async (err) => {
-      if (err)
-        return res.status(400).json({ success: false, message: err.message });
-  
-      await User.create({ photosVideo: req.file.location });
-  
-      res.status(200).json({ data: req.file.location });
+        res.json("video added! " + video); // dont do this res.json({ tag: data });
     });
-  };
+
+    }else {
+      const uploadSingle = upload("mdodive").single(
+        "croppedImage"
+      );
+    
+      uploadSingle(req, res, async (err) => {
+        if (err)
+          return res.status(400).json({ success: false, message: err.message });
+    
+        await User.create({ photosVideo: req.file.location });
+    
+        res.status(200).json({ data: req.file.location });
+      });
+  
+    }
+
+      };
 
   
 exports.getArchived = (req, res) => {

@@ -77,7 +77,7 @@ const s3 = new aws.S3({
       if (err)
         return res.status(400).json({ success: false, message: err.message });
   
-      await User.create({ photosVideo: req.file.location, animals: req.body.animals, location: req.body.location, yearType: req.body.yearType, Types: req.body.Types});
+      await User.create({ photosVideo: req.file.location });
   
       res.status(200).json({ data: req.file.location });
     });
@@ -98,3 +98,17 @@ exports.getArchived = (req, res) => {
       });
   
   };
+
+  exports.deletePhotoVid = (req, res) => {
+    var vidPicId = req.query.vidPicId;
+    console.log("dasdas " + vidPicId)
+    User.deleteOne({ _id: vidPicId }).exec((err, tag) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'product not found'
+            });
+            
+        }
+        res.json({ "identifier": "Delete One Photo Video"});
+    });
+    };

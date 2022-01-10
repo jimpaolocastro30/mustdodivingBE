@@ -65,6 +65,19 @@ location.updateOne(myquery, newV).exec((err, tag) => {
 });
 };
 
+exports.deleteOneLocation = (req, res) => {
+    var locationId = req.query.locationId;
+    console.log("dasdas " + locationId)
+    location.deleteOne({ locationId: locationId }).exec((err, tag) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'product not found'
+            });
+            
+        }
+        res.json({ "identifier": "Delete One location "});
+    });
+    };
 
 exports.addSubLocation = (req, res) => {
 
@@ -133,3 +146,17 @@ subLocation.updateOne(myquery, newV).exec((err, tag) => {
     res.json("Message: Successfully updated Sub location " + subLocationId);
 });
 };
+
+exports.deleteOneSubLocation = (req, res) => {
+    var subLocationId = req.query.subLocationId;
+    console.log("dasdas " + subLocationId)
+    subLocation.deleteOne({ subLocationId : subLocationId }).exec((err, tag) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'product not found'
+            });
+            
+        }
+        res.json({ "identifier": "Delete One Sub location"});
+    });
+    };

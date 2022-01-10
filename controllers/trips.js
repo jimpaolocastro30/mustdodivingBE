@@ -65,3 +65,18 @@ trips.updateOne(myquery, newV).exec((err, tag) => {
     res.json("Message: Successfully updated Trips " + tripId);
 });
 };
+
+
+exports.deleteOneTrips = (req, res) => {
+    var tripId = req.query.tripId;
+    console.log("dasdas " + tripId)
+    trips.deleteOne({ tripId: tripId }).exec((err, tag) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'product not found'
+            });
+            
+        }
+        res.json({ "identifier": "Delete One Trips"});
+    });
+    };

@@ -67,6 +67,19 @@ animal.updateOne(myquery, newV).exec((err, tag) => {
 });
 };
 
+exports.deleteOneAnimals = (req, res) => {
+    var animalsId = req.query.animalsId;
+    console.log("dasdas " + animalsId)
+    animal.deleteOne({ animalsId: animalsId }).exec((err, tag) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'product not found'
+            });
+            
+        }
+        res.json({ "identifier": "deleted One Animals"});
+    });
+    };
 
 exports.addSubAnimal = (req, res) => {
 
@@ -138,3 +151,18 @@ subAnimal.updateOne(myquery, newV).exec((err, tag) => {
     res.json("Message: Successfully updated Animals " + subAnimalsId);
 });
 };
+
+
+exports.deleteOneSubAnimals = (req, res) => {
+    var subAnimalsId = req.query.subAnimalsId;
+    console.log("dasdas " + subAnimalsId)
+    subAnimal.deleteOne({ subAnimalsId: subAnimalsId }).exec((err, tag) => {
+        if (err) {
+            return res.status(400).json({
+                error: 'product not found'
+            });
+            
+        }
+        res.json({ "identifier": "Delete One Sub Animals"});
+    });
+    };

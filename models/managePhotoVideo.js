@@ -18,6 +18,13 @@ const managePhotoVideoSchema = new mongoose.Schema(
         Trips: {
             type: String
         },
+
+        isVideo:{
+            type:String
+        },
+        DateCreated:{
+            type:Date
+        }
     },
     { timestamp: true }
 );

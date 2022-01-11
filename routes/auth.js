@@ -82,9 +82,9 @@ router.put('/admin/update/trips', requireSigninUser, updateOneTrips);
 router.delete('/admin/delete/trips', requireSigninUser, deleteOneTrips);
 
 
-router.post('/admin/post/video-photo',  addPhotosVideo);
-router.get('/admin/get/video-photo',  getArchived);
-router.delete('/admin/delete/video-photo', deletePhotoVid);
+router.post('/admin/post/video-photo', requireSigninUser, addPhotosVideo);
+router.get('/admin/get/video-photo', requireSigninUser, getArchived);
+router.delete('/admin/delete/video-photo', requireSigninUser, deletePhotoVid);
 
 
 

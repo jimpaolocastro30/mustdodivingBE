@@ -15,6 +15,8 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips, deleteOneTrips} = require('../controllers/trips');
 
+const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedia, deleteOneManageMedia} = require('../controllers/manageMedia');
+
 const {addPhotosVideo, getArchived, deletePhotoVid} = require('../controllers/managePhotoVideo');
   
   const fileFilter = (req, file, cb) => {
@@ -85,6 +87,11 @@ router.delete('/admin/delete/trips', requireSigninUser, deleteOneTrips);
 router.post('/admin/post/video-photo', requireSigninUser, addPhotosVideo);
 router.get('/admin/get/video-photo', requireSigninUser, getArchived);
 router.delete('/admin/delete/video-photo', requireSigninUser, deletePhotoVid);
+
+router.post('/admin/post/manage/media', requireSigninUser, addManageMedia);
+router.get('/admin/get/manage/media', requireSigninUser, getAllManageMedia);
+router.get('/admin/get/one/manage/media', requireSigninUser, getOneManageMedia);
+router.delete('/admin/delete/manage/media', requireSigninUser, deleteOneManageMedia);
 
 
 

@@ -119,7 +119,7 @@ exports.getArchived = (req, res) => {
 
   const pagination = req.query.pagination ? parseInt(req.query.pagination) : 20;
     console.log("dasdadsa " + pagination)
-    User.find({}).sort({ "_id": -1 }).limit(pagination).exec((err, tag) => {
+    User.find({}).sort({ "_id":-1 }).limit(pagination).exec((err, tag) => {
           if (_.isEmpty(tag)) {
               return res.status(400).json({
                   error: 'lookup not found'

@@ -96,7 +96,7 @@ exports.addSubLocation = (req, res) => {
           });
       }
 
-      res.json("sub local added! " + subLocations); // dont do this res.json({ tag: data });
+      res.json("sub local added! " + subLocationName); // dont do this res.json({ tag: data });
   });
 };
 

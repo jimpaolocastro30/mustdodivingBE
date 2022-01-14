@@ -1,4 +1,4 @@
-const mmedia = require('../models/manageMedia');
+const mmedia = require('../models/managePhotoVideo');
 var moment = require("moment");
 var _ = require("lodash");
 

@@ -27,7 +27,7 @@ exports.addMainAnimal = (req, res) => {
 
 exports.getAllAnimals = (req, res) => {
    
-  animal.find({}).exec((err, tag) => {
+  animal.find({}).sort({ "_id": -1 }).exec((err, tag) => {
         if (_.isEmpty(tag)) {
             return res.status(400).json({
                 error: 'lookup not found'
@@ -111,7 +111,7 @@ exports.getAllSubAnimalsByMainId = (req, res) => {
     { 
       animalsId:animalId
     }
-  ).exec((err, tag) => {
+  ).sort({ "_id": -1 }).exec((err, tag) => {
         if (_.isEmpty(tag)) {
             return res.status(400).json({
                 error: 'lookup not found'

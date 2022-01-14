@@ -27,7 +27,7 @@ exports.addLocation = (req, res) => {
 
 exports.getAllLocation = (req, res) => {
    
-    location.find({}).exec((err, tag) => {
+    location.find({}).sort({ "_id": -1 }).exec((err, tag) => {
         if (_.isEmpty(tag)) {
             return res.status(400).json({
                 error: 'lookup not found'
@@ -108,7 +108,7 @@ exports.getAllSubLocalByMainId = (req, res) => {
     { 
         locationId:locationId
     }
-  ).exec((err, tag) => {
+  ).sort({ "_id": -1 }).exec((err, tag) => {
         if (_.isEmpty(tag)) {
             return res.status(400).json({
                 error: 'lookup not found'

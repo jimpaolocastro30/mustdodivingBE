@@ -44,38 +44,34 @@ var moment = require("moment");
 
 const aws = require("aws-sdk");
 const multer = require("multer");
-const multerS3 = require("multer-s3");
 const Jimp = require("jimp");
 
 const User = require("../models/managePhotoVideo");
+const imageFilter = require("../helpers/")
+const path = require('path')
+const fs = require('fs')
 
 const s3 = new aws.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-    region: process.env.AWS_BUCKET_REGION,
-  });
-  
-  const upload = (bucketName) =>
-    multer({
-      storage: multerS3({
-        s3,
-        bucket: bucketName,
-        metadata: function (req, file, cb) {
-          cb(null, { fieldName: file.fieldname });
-        },
-        key: function (req, file, cb) {
-          cb(null, `image-${Date.now()}.jpeg`);
-        },
-      }),
-    });
-  
-  exports.addPhotosVideo = (req, res, next) => {
-    var isVideo = req.query.isVideo;
-    const { video } = req.body;
-    //let Datesd = new Date();
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_BUCKET_REGION,
+});
 
+const multerStorage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'uploads/');
+  },
 
-   // let DateCreated = moment().format('MMMM Do YYYY, h:mm:ss a');
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+})
+  
+exports.addPhotosVideo = (req, res, next) => {
+  var isVideo = req.query.isVideo;
+  const { video } = req.body;
+  //let Datesd = new Date();
+
    let DateCreated = moment().format('l');
    DateCreated = new Date(
     `${DateCreated.split('/')[2]}-${DateCreated.split('/')[0]}-${DateCreated.split('/')[1]}`,
@@ -97,39 +93,83 @@ const s3 = new aws.S3({
         res.json("video added! " + video); // dont do this res.json({ tag: data });
     });
 
-    }else {
-   
-
-      const uploadSingle = upload("mdodive").single(
-        "croppedImage"
-      );
-    
-      uploadSingle(req, res, async (err) => {
-        var fileName = req.file.location;
-        var imageCaption = 'dasdasdsadas dasdasdasd';
-        var loadedImage;
-
-        Jimp.read(fileName)
-            .then(function (image) {
-                loadedImage = image;
-                return Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
-            })
-            .catch(function (err) {
-                console.error(err);
-            });
-            
-            console.log("dasdsadsa " + fileName)
-        if (err)
-          return res.status(400).json({ success: false, message: err.message });
-    
-        await User.create({ photosVideo: fileName , isVideo: 0, DateCreated: DateCreated});
-    
-        res.status(200).json({ data: fileName });
-      });
-  
     }
+    else {
+      let upload = multer({ storage: multerStorage }).fields(
+        [{
+          name: 'croppedImage', maxCount: 1
+        }, {
+          name: 'watermarkImage', maxCount: 1
+        }
+      ])
 
-      };
+      try {
+        upload(req, res, async(err) => {
+          if (err)
+            return res.status(400).json({ success: false, message: err.message });
+          
+          const files = req.files
+          const imageObject = files['croppedImage'][0]
+          const image = await Jimp.read(imageObject.path)
+          let w = image.bitmap.width
+          let h = image.bitmap.height
+          const watermarkPosition = req.body.watermarkPosition
+          let x = watermarkPosition.includes('left') ? (w-w) + 10 : w * .85
+          let y = watermarkPosition.includes('top') ? (h-h) + 10 : h - 40
+
+          if(req.body.text) {
+            const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+            image.print(font, x, y,
+              { text: req.body.text }, w * .80, h/2
+            )
+          }
+          else {
+            const watermarImageObject = files['watermarkImage'][0]
+            const watermarkImage = await Jimp.read(watermarImageObject.path)
+            let squareSize = 250
+            watermarkImage.resize(squareSize, squareSize);
+            watermarkImage.grayscale()
+            x = watermarkPosition.includes('left') ? (w-w) + 10 : w - watermarkImage.bitmap.width
+            y = watermarkPosition.includes('top') ? (h-h) + 10 : y - watermarkImage.bitmap.height
+            image.composite(watermarkImage, x, y, {
+                mode: Jimp.BLEND_MULTIPLY,
+                opacitySource: 0.5,
+                opacityDest: 0.9
+              }
+            )
+          }
+
+          const uploadpath = "./uploads/watermarked/" + imageObject.path
+          image.resize(800, Jimp.AUTO).quality(100).write(uploadpath, () => {
+            const stream = fs.createReadStream(uploadpath);
+            const params = {
+              Bucket: 'mdodive',
+              Key: `image-${Date.now()}.jpeg`,
+              ContentType: 'image/jpg',
+              Body: stream,
+              ContentEncoding: 'base64',
+              Metadata: {
+                'Content-Type': 'image/jpeg'
+              }
+            }
+
+            s3.upload(params, async (err, data) => {
+                if(err) {
+                  return res.status(500).json({ success: false, message: err.message });
+                }
+
+                await User.create({ photosVideo: data.Location , isVideo: 0, DateCreated: DateCreated});
+                res.status(200).json({ data: data.Location });
+              });
+          });
+      })
+   }
+    catch(err) {
+      return res.status(500).json({ success: false, message: err.message });
+    }
+  }
+
+};
 
   
 exports.getArchived = (req, res) => {

@@ -45,6 +45,7 @@ var moment = require("moment");
 const aws = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
+const Jimp = require("jimp");
 
 const User = require("../models/managePhotoVideo");
 
@@ -97,17 +98,33 @@ const s3 = new aws.S3({
     });
 
     }else {
+   
+
       const uploadSingle = upload("mdodive").single(
         "croppedImage"
       );
     
       uploadSingle(req, res, async (err) => {
+        var fileName = req.file.location;
+        var imageCaption = 'dasdasdsadas dasdasdasd';
+        var loadedImage;
+
+        Jimp.read(fileName)
+            .then(function (image) {
+                loadedImage = image;
+                return Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+            })
+            .catch(function (err) {
+                console.error(err);
+            });
+            
+            console.log("dasdsadsa " + fileName)
         if (err)
           return res.status(400).json({ success: false, message: err.message });
     
-        await User.create({ photosVideo: req.file.location , isVideo: 0, DateCreated: DateCreated});
+        await User.create({ photosVideo: fileName , isVideo: 0, DateCreated: DateCreated});
     
-        res.status(200).json({ data: req.file.location });
+        res.status(200).json({ data: fileName });
       });
   
     }

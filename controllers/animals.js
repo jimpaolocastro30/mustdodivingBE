@@ -41,7 +41,7 @@ exports.getAllAnimals = (req, res) => {
 exports.getOneAnimals = (req, res) => {
 var animalId = req.query.animalId;
 
-animal.findOne({ animalsId: animalId }).exec((err, tag) => {
+subAnimal.find({ animalsId: animalId }).exec((err, tag) => {
     if (err) {
         return res.status(400).json({
             error: 'product not found'

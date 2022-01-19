@@ -45,6 +45,7 @@ var moment = require("moment");
 const aws = require("aws-sdk");
 const multer = require("multer");
 const Jimp = require("jimp");
+const multerS3 = require("multer-s3");
 
 const User = require("../models/managePhotoVideo");
 const imageFilter = require("../helpers/")
@@ -69,6 +70,7 @@ const multerStorage = multer.diskStorage({
   
 exports.addPhotosVideo = (req, res, next) => {
   var isVideo = req.query.isVideo;
+  var watermark = req.query.watermark;
   const { video } = req.body;
   //let Datesd = new Date();
 
@@ -94,7 +96,7 @@ exports.addPhotosVideo = (req, res, next) => {
     });
 
     }
-    else {
+    else if (watermark == 1) {
       let upload = multer({ storage: multerStorage }).fields(
         [{
           name: 'croppedImage', maxCount: 1
@@ -167,8 +169,50 @@ exports.addPhotosVideo = (req, res, next) => {
     catch(err) {
       return res.status(500).json({ success: false, message: err.message });
     }
-  }
+  } else {
 
+    const upload = (bucketName) =>
+    multer({
+      storage: multerS3({
+        s3,
+        bucket: bucketName,
+        metadata: function (req, file, cb) {
+          cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+          cb(null, `image-${Date.now()}.jpeg`);
+        },
+      }),
+    });
+  
+
+    const uploadSingle = upload("mdodive").single(
+      "croppedImage"
+    );
+  
+    uploadSingle(req, res, async (err) => {
+      var fileName = req.file.location;
+      var imageCaption = 'dasdasdsadas dasdasdasd';
+      var loadedImage;
+
+      Jimp.read(fileName)
+          .then(function (image) {
+              loadedImage = image;
+              return Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+          })
+          .catch(function (err) {
+              console.error(err);
+          });
+          
+          console.log("dasdsadsa " + fileName)
+      if (err)
+        return res.status(400).json({ success: false, message: err.message });
+  
+      await User.create({ photosVideo: fileName , isVideo: 0, DateCreated: DateCreated});
+  
+      res.status(200).json({ data: fileName });
+    });
+  }
 };
 
   

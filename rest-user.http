@@ -1,6 +1,6 @@
 @url = http://localhost:5000/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NDE2MzMxMjcsImV4cCI6MTY0MTcxOTUyN30.vaJHuPIIDJBYbfTFly9ZmiLnP--P8v8Q3O4YDSrwqbA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NDE3OTMzNjMsImV4cCI6MTY0MTg3OTc2M30.-JAn6AxjPLJBdcUARL5GM5r1tQl1kmh3s2nIlr8UHUY
 
 ## User Registration ##
 POST {{url}}/signup
@@ -43,7 +43,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-   "animalsMain" : "seal"
+   "animalsMain" : "lamok"
 }
 
 
@@ -58,20 +58,25 @@ Content-Type: application/json
 
 
 ### User Signin Mobile number ###
-GET {{url}}/admin/get/one/animal/61d8356afad6cf2908bcb271
+GET {{url}}/admin/get/one/animal?animalId=mainAnimals1641793390122
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
+### User Signin Mobile number ###
+DELETE {{url}}/admin/delete/animal?animalsId=mainAnimals1641793723084
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
 
 ### User Signin Mobile number ###
-PUT {{url}}/admin/update/animal/61d8356afad6cf2908bcb271
+PUT {{url}}/admin/update/animal?animalId=mainAnimals1641559408209
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
 {
-   "animalsMain" : "dugong"
+   "animalsMain" : "whale"
 }
 
 
@@ -94,10 +99,16 @@ Content-Type: application/json
 
 
 ### User Signin Mobile number ###
-GET {{url}}/admin/get/one/sub-animal?subAnimalsId=subAnimals1641633216490
+GET {{url}}/admin/get/one/sub-animal?subAnimalsId=subAnimals164163321649
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+
+### User Signin Mobile number ###
+
+DELETE {{url}}/admin/DELETE/sub-animal?subAnimalsId=subAnimals164163321649
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 
 ### User Signin Mobile number ###
@@ -136,6 +147,17 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
+
+### User Signin Mobile number ###
+GET {{url}}/admin/get/one/location?locationId=location1641636249249
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+### User Signin Mobile number ###
+GET {{url}}/admin/delete/location?locationId=location1641636249249
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 ### User Signin Mobile number ###
 PUT {{url}}/admin/update/location?locationId=location1641636249249
@@ -193,9 +215,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {  
-   "tripName": "Komodo",
+   "tripName": "Aichi",
    "month" : "January",
-   "year" : 2019
+   "year" : 2021
 }
 
 
@@ -214,7 +236,7 @@ Content-Type: application/json
 
 
 ### User Signin Mobile number ###
-PUT {{url}}/admin/update/trips?tripId=subLocation1641637236308
+PUT {{url}}/admin/update/trips?tripId=trips1641638103755
 Authorization: Bearer {{token}}
 Content-Type: application/json
 

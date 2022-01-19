@@ -15,9 +15,9 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips, deleteOneTrips} = require('../controllers/trips');
 
-const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedia, deleteOneManageMedia} = require('../controllers/manageMedia');
+const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedia, deleteOneManageMedia, addLogo, deleteLogo, getLogo} = require('../controllers/manageMedia');
 
-const {addPhotosVideo, getArchived, deletePhotoVid} = require('../controllers/managePhotoVideo');
+const {addPhotosVideo, getArchived, deletePhotoVid,} = require('../controllers/managePhotoVideo');
   
   const fileFilter = (req, file, cb) => {
     // reject a file
@@ -100,5 +100,8 @@ router.get('/admin/get/query/user/:slug', requireSigninUser, adminMiddleware, ge
 router.get('/admin/get/one/user/:slug', requireSigninUser, adminMiddleware, readUser);
 router.put('/admin/update/user/:slug', requireSigninUser, adminMiddleware, updateUser);
 
+router.post('/admin/add/logo', requireSigninUser, addLogo);
+router.get('/admin/get/one/logo', requireSigninUser, getLogo);
+router.delete('/admin/delete/logo', requireSigninUser, deleteLogo);
 
 module.exports = router;

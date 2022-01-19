@@ -2,22 +2,10 @@ const mongoose = require('mongoose');
 
 const manageMediaSchema = new mongoose.Schema(
     {   
-        mmediaId: {
+        logoId: {
             type: String
         },
-        photosVideo: {
-            type: String
-        },
-        animals: {
-            type: String
-        },
-        location: {
-            type: String
-        },
-        yearType: {
-            type: String
-        },
-        Trips: {
+        logoInputs: {
             type: String
         },
         DateCreated:{

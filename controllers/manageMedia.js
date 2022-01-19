@@ -1,6 +1,10 @@
 const mmedia = require('../models/managePhotoVideo');
+const logoM = require('../models/manageMedia')
 var moment = require("moment");
+const aws = require("aws-sdk");
 var _ = require("lodash");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
 exports.addManageMedia = (req, res) => {
 
@@ -128,3 +132,73 @@ exports.deleteOneManageMedia = (req, res) => {
         res.json({ "identifier": "Delete One Manage Media :" + mmediaId});
     });
     };
+
+exports.addLogo = (req, res) => {
+    const s3 = new aws.S3({
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_KEY,
+        region: process.env.AWS_BUCKET_REGION,
+      });  
+
+  var transactionPrefix = "logoDive";
+  var logoId = transactionPrefix + moment().format("x");
+  let DateCreated = new Date();
+    const upload = (bucketName) =>
+    multer({
+      storage: multerS3({
+        s3,
+        bucket: bucketName,
+        metadata: function (req, file, cb) {
+          cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+          cb(null, `image-${Date.now()}.jpeg`);
+        },
+      }),
+    });
+
+
+
+    
+    const uploadSingle = upload("mdodive").single(
+      "croppedLogo"
+    );
+  
+    uploadSingle(req, res, async (err) => {
+      var fileName = req.file.location;
+      var imageCaption = 'dasdasdsadas dasdasdasd';
+      var loadedImage;
+
+      if (err)
+        return res.status(400).json({ success: false, message: err.message });
+  
+      await logoM.create({ logoId: logoId, logoInputs: fileName , DateCreated: DateCreated});
+  
+      res.status(200).json({ data: fileName });
+    });
+  }
+
+  exports.getLogo = (req, res) => {
+      logoM.findOne({}).sort({ "_id":-1 }).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({ "identifier": "Get archives", tag});
+        });
+    
+    };
+  
+    exports.deleteLogo = (req, res) => {
+      var logoId = req.query.logoId;
+      logoM.deleteOne({ logoId: logoId }).exec((err, tag) => {
+          if (err) {
+              return res.status(400).json({
+                  error: 'product not found'
+              });
+              
+          }
+          res.json({ "identifier": "Delete One Photo Video"});
+      });
+      };

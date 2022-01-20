@@ -78,8 +78,6 @@ exports.addPhotosVideo = (req, res, next) => {
    DateCreated = new Date(
     `${DateCreated.split('/')[2]}-${DateCreated.split('/')[0]}-${DateCreated.split('/')[1]}`,
  );
-
-    console.log("dasdada " + DateCreated)
     if(isVideo == 1){
 
       let videos = new User({ photosVideo: video, isVideo: 1, DateCreated: DateCreated});
@@ -160,7 +158,7 @@ exports.addPhotosVideo = (req, res, next) => {
                   return res.status(500).json({ success: false, message: err.message });
                 }
 
-                await User.create({ photosVideo: data.Location , isVideo: 0, DateCreated: DateCreated});
+                await User.create({ photosVideo: data.Location , isVideo: 0, isWatermark: 1,DateCreated: DateCreated});
                 res.status(200).json({ data: data.Location });
               });
           });
@@ -169,7 +167,7 @@ exports.addPhotosVideo = (req, res, next) => {
     catch(err) {
       return res.status(500).json({ success: false, message: err.message });
     }
-  } else if (watermark == 0) {
+  } else if (watermark == 1) {
 
     const upload = (bucketName) =>
     multer({
@@ -208,7 +206,7 @@ exports.addPhotosVideo = (req, res, next) => {
       if (err)
         return res.status(400).json({ success: false, message: err.message });
   
-      await User.create({ photosVideo: fileName , isVideo: 0, DateCreated: DateCreated});
+      await User.create({ photosVideo: fileName , isVideo: 0, isWatermark: 1, DateCreated: DateCreated});
   
       res.status(200).json({ data: fileName });
     });

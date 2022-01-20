@@ -22,6 +22,9 @@ const managePhotoVideoSchema = new mongoose.Schema(
         isVideo:{
             type:String
         },
+        isWatermark:{
+            type:Number
+        },
         DateCreated:{
             type:Date
         }

@@ -207,7 +207,6 @@ exports.addLogo = (req, res) => {
 
 
       exports.addWaterMarkPhoto = (req, res) => {
-            var watermarkPosition = req.body.watermarkPosition
             const s3 = new aws.S3({
                 accessKeyId: process.env.AWS_ACCESS_KEY,
                 secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -240,10 +239,11 @@ exports.addLogo = (req, res) => {
           
             uploadSingle(req, res, async (err) => {
               var fileName = req.file.location;
+              var watermarkLocation = req.body.watermarkLocation
               if (err)
                 return res.status(400).json({ success: false, message: err.message });
           
-              await watermarkM.create({ watermarkId: watermarkId, watermarkPosition: watermarkPosition, watermark: fileName, DateCreated: DateCreated});
+              await watermarkM.create({ watermarkId: watermarkId, watermarkLocation: watermarkLocation, watermark: fileName, DateCreated: DateCreated});
           
               res.status(200).json({ data: fileName });
             });
@@ -254,8 +254,8 @@ exports.addLogo = (req, res) => {
         var watermarkId = transactionPrefix + moment().format("x");
         let DateCreated = new Date();
 
-        const { letterWatermark, watermarkPosition } = req.body;
-        let postwaterMark = new watermarkM({watermarkId, watermarkPosition, letterWatermark, DateCreated});
+        const { letterWatermark, watermarkLocation } = req.body;
+        let postwaterMark = new watermarkM({watermarkId, watermarkLocation, letterWatermark, DateCreated});
 
 
         postwaterMark.save((err, data) => {

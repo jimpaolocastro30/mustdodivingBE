@@ -1,5 +1,6 @@
 const mmedia = require('../models/managePhotoVideo');
 const logoM = require('../models/manageMedia')
+const watermarkM = require('../models/watermarkManagement')
 var moment = require("moment");
 const aws = require("aws-sdk");
 var _ = require("lodash");
@@ -202,3 +203,94 @@ exports.addLogo = (req, res) => {
           res.json({ "identifier": "Delete One Photo Video"});
       });
       };
+
+
+
+      exports.addWaterMarkPhoto = (req, res) => {
+            var watermarkPosition = req.body.watermarkPosition
+            const s3 = new aws.S3({
+                accessKeyId: process.env.AWS_ACCESS_KEY,
+                secretAccessKey: process.env.AWS_SECRET_KEY,
+                region: process.env.AWS_BUCKET_REGION,
+              });  
+        
+          var transactionPrefix = "watermarkDive";
+          var watermarkId = transactionPrefix + moment().format("x");
+          let DateCreated = new Date();
+            const upload = (bucketName) =>
+            multer({
+              storage: multerS3({
+                s3,
+                bucket: bucketName,
+                metadata: function (req, file, cb) {
+                  cb(null, { fieldName: file.fieldname });
+                },
+                key: function (req, file, cb) {
+                  cb(null, `image-${Date.now()}.jpeg`);
+                },
+              }),
+            });
+        
+        
+        
+            
+            const uploadSingle = upload("mdodive").single(
+              "croppedLogo"
+            );
+          
+            uploadSingle(req, res, async (err) => {
+              var fileName = req.file.location;
+              if (err)
+                return res.status(400).json({ success: false, message: err.message });
+          
+              await watermarkM.create({ watermarkId: watermarkId, watermarkPosition: watermarkPosition, watermark: fileName, DateCreated: DateCreated});
+          
+              res.status(200).json({ data: fileName });
+            });
+        }
+    
+        exports.addWaterMarkLetter = (req, res) => {
+        var transactionPrefix = "watermarkDive";
+        var watermarkId = transactionPrefix + moment().format("x");
+        let DateCreated = new Date();
+
+        const { letterWatermark, watermarkPosition } = req.body;
+        let postwaterMark = new watermarkM({watermarkId, watermarkPosition, letterWatermark, DateCreated});
+
+
+        postwaterMark.save((err, data) => {
+            console.log("check" + err)
+            if (err) {
+                return res.status(400).json({
+                    error: err.errmsg
+                });
+            }
+
+            res.json("watermark added! " + watermarkId); // dont do this res.json({ tag: data });
+        });
+    }
+
+      exports.getWatermark = (req, res) => {
+        watermarkM.findOne({}).sort({ "_id":-1 }).exec((err, tag) => {
+                if (_.isEmpty(tag)) {
+                    return res.status(400).json({
+                        error: 'lookup not found'
+                    });
+                }
+                res.json({ "identifier": "Get watermark", tag});
+            });
+        
+        };
+      
+        exports.deleteWatermark = (req, res) => {
+          var watermarkId = req.query.watermarkId;
+          watermarkM.deleteOne({ watermarkId: watermarkId }).exec((err, tag) => {
+              if (err) {
+                  return res.status(400).json({
+                      error: 'product not found'
+                  });
+                  
+              }
+              res.json({ "identifier": "Delete One watermark"});
+          });
+          };

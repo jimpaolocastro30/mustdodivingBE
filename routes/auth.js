@@ -15,7 +15,7 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips, deleteOneTrips} = require('../controllers/trips');
 
-const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedia, deleteOneManageMedia, addLogo, deleteLogo, getLogo} = require('../controllers/manageMedia');
+const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedia, deleteOneManageMedia, addLogo, deleteLogo, getLogo, addWaterMarkPhoto, addWaterMarkLetter, getWatermark, deleteWatermark} = require('../controllers/manageMedia');
 
 const {addPhotosVideo, getArchived, deletePhotoVid,} = require('../controllers/managePhotoVideo');
   
@@ -103,5 +103,12 @@ router.put('/admin/update/user/:slug', requireSigninUser, adminMiddleware, updat
 router.post('/admin/add/logo', requireSigninUser, addLogo);
 router.get('/admin/get/one/logo', requireSigninUser, getLogo);
 router.delete('/admin/delete/logo', requireSigninUser, deleteLogo);
+
+
+router.post('/admin/add/watermark/photo', requireSigninUser, addWaterMarkPhoto);
+router.post('/admin/add/watermark/letter', requireSigninUser, addWaterMarkLetter);
+router.get('/admin/get/one/watermark', requireSigninUser, getWatermark);
+router.delete('/admin/delete/watermark', requireSigninUser, deleteWatermark);
+
 
 module.exports = router;

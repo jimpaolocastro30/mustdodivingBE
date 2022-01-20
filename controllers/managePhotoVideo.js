@@ -169,7 +169,7 @@ exports.addPhotosVideo = (req, res, next) => {
     catch(err) {
       return res.status(500).json({ success: false, message: err.message });
     }
-  } else {
+  } else if (watermark == 0) {
 
     const upload = (bucketName) =>
     multer({

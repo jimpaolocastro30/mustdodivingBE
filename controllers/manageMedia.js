@@ -243,7 +243,7 @@ exports.addLogo = (req, res) => {
               if (err)
                 return res.status(400).json({ success: false, message: err.message });
           
-              await watermarkM.create({ watermarkId: watermarkId, watermarkLocation: watermarkLocation, watermark: fileName, DateCreated: DateCreated});
+              await watermarkM.create({ watermarkId: watermarkId, watermarkLocation: watermarkLocation, watermark: fileName, isWatermarkPhoto: 1, DateCreated: DateCreated});
           
               res.status(200).json({ data: fileName });
             });
@@ -255,7 +255,7 @@ exports.addLogo = (req, res) => {
         let DateCreated = new Date();
 
         const { letterWatermark, watermarkLocation } = req.body;
-        let postwaterMark = new watermarkM({watermarkId, watermarkLocation, letterWatermark, DateCreated});
+        let postwaterMark = new watermarkM({watermarkId, watermarkLocation, letterWatermark, DateCreated, isWatermarkPhoto: 0});
 
 
         postwaterMark.save((err, data) => {

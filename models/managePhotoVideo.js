@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const managePhotoVideoSchema = new mongoose.Schema(
     {   
-
+        photoId :{
+            type: String
+        }, 
         photosVideo: {
             type: String
         },

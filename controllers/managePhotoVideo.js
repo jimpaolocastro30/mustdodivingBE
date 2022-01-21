@@ -55,10 +55,72 @@ const s3 = new aws.S3({
   secretAccessKey: process.env.AWS_SECRET_KEY,
   region: process.env.AWS_BUCKET_REGION,
 });
+
+
+exports.addPhotosVideo = (req, res) => {
+  const s3 = new aws.S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+      region: process.env.AWS_BUCKET_REGION,
+    });  
+
+let DateCreated = new Date();
+var isVideo = req.query.isVideo;
+const { video } = req.body;
+
+  const upload = (bucketName) =>
+  multer({
+    storage: multerS3({
+      s3,
+      bucket: bucketName,
+      metadata: function (req, file, cb) {
+        cb(null, { fieldName: file.fieldname });
+      },
+      key: function (req, file, cb) {
+        cb(null, `image-${Date.now()}.jpeg`);
+      },
+    }),
+  });
+
+  const uploadSingle = upload("mdodive").single(
+    "croppedImage"
+  );
+  var transactionPrefix = "manageMedia";
+  var photoId = transactionPrefix + moment().format("x");
+
+  if(isVideo == 1){
+
+    let videos = new User({ photoId: photoId, photosVideo: video, isVideo: 1, DateCreated: DateCreated});
+
+    videos.save((err, data) => {
+      console.log("check" + err)
+      if (err) {
+          return res.status(400).json({
+              error: err.errmsg
+          });
+      }
+
+      res.json("video added! " + video); // dont do this res.json({ tag: data });
+  });
+  } else {
+
+    uploadSingle(req, res, async (err) => {
+      var fileName = req.file.location;
+      if (err)
+        return res.status(400).json({ success: false, message: err.message });
   
-exports.addPhotosVideo = async(req, res, next) => {
+      await User.create({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 1, DateCreated: DateCreated});
+  
+      res.status(200).json({ data: fileName });
+    });
+  }
+ 
+}
+
+exports.updatePhotoWatermark = async(req, res, next) => {
   var isVideo = req.query.isVideo;
-  const { video, watermark, croppedImage, watermarkPosition } = req.body;
+  var picId = req.query.picId
+  const { video, watermark, croppedImage, watermarkLetter, watermarkPosition, isWatermark } = req.body;
   //let Datesd = new Date();
 
    let DateCreated = moment().format('l');
@@ -80,7 +142,7 @@ exports.addPhotosVideo = async(req, res, next) => {
         res.json("video added! " + video); // dont do this res.json({ tag: data });
     });
     }
-    else if (watermark) {
+    else if (isWatermark) {
       try {    
         const image = await Jimp.read(croppedImage)
         let w = image.bitmap.width
@@ -89,10 +151,10 @@ exports.addPhotosVideo = async(req, res, next) => {
         let x = position.includes('left') ? (w-w) + 10 : w * .85
         let y = position.includes('top') ? (h-h) + 10 : h - 40
 
-        if(req.body.text) {
+        if(watermarkLetter) {
           const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
           image.print(font, x, y,
-            { text: req.body.text }, w * .80, h/2
+            { text: watermarkLetter }, w * .80, h/2
           )
         }
         else {
@@ -129,8 +191,12 @@ exports.addPhotosVideo = async(req, res, next) => {
                 console.log({err})
                 return res.status(500).json({ success: false, message: err.message });
               }
-
-              await User.create({ photosVideo: data.Location , isVideo: 0, DateCreated: DateCreated});
+              var myquery = { photoId: picId }
+              var newValues = { photosVideo: data.Location, isVideo: 0, DateCreated: DateCreated }
+              console.log("dasda " + myquery)
+              console.log("dasda 2 " + newValues)
+              await User.updateOne(myquery, newValues);
+              // await User.create({ photosVideo: data.Location , isVideo: 0, isWatermark: 1, DateCreated: DateCreated});
               res.status(200).json({ data: data.Location });
             });
         });

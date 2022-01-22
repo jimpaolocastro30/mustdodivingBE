@@ -96,6 +96,7 @@ router.post('/admin/post/manage/media', requireSigninUser, addManageMedia);
 router.get('/admin/get/manage/media', requireSigninUser, getAllManageMedia);
 router.get('/admin/get/one/manage/media', requireSigninUser, getOneManageMedia);
 router.delete('/admin/delete/manage/media', requireSigninUser, deleteOneManageMedia);
+router.put('/admin/update/manage/media', requireSigninUser, updateOneManageMedia);
 
 
 

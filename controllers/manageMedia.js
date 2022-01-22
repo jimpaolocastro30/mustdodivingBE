@@ -106,8 +106,8 @@ mmedia.findOne({ mmediaId: mmediaId }).exec((err, tag) => {
 };
 
 exports.updateOneManageMedia = (req, res) => {
- const mmediaId = req.query.mmediaId;
-var myquery = { mmediaId: mmediaId }
+ const photoId = req.query.photoId;
+var myquery = { photoId: photoId }
 var newV = req.body;
 
 mmedia.updateOne(myquery, newV).exec((err, tag) => {
@@ -116,7 +116,7 @@ mmedia.updateOne(myquery, newV).exec((err, tag) => {
             error: 'cant update Trips'
         });
     }
-    res.json("Message: Successfully updated Manage Media " + tripId);
+    res.json("Message: Successfully updated Manage Media " + photoId);
 });
 };
 

@@ -11,10 +11,19 @@ const managePhotoVideoSchema = new mongoose.Schema(
         animals: {
             type: String
         },
+        subAnimal:{
+            type:String
+        },
         location: {
             type: String
         },
-        yearType: {
+        subLocation: {
+            type: String
+        },
+        month: {
+            type: String
+        },
+        year: {
             type: String
         },
         Trips: {

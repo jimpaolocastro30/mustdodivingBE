@@ -40,7 +40,7 @@ exports.getAllLocation = (req, res) => {
 
 exports.getOneLocation = (req, res) => {
 const locationId = req.query.locationId;
-location.findOne({ locationId : locationId }).exec((err, tag) => {
+subLocation.find({ locationId : locationId }).exec((err, tag) => {
     if (err) {
         return res.status(400).json({
             error: 'location not found'

@@ -19,7 +19,8 @@ const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedi
   deleteOneManageMedia, addLogo, deleteLogo, getLogo, addWaterMarkPhoto, addWaterMarkLetter, getWatermark, deleteWatermark} = require('../controllers/manageMedia');
 
 const {addPhotosVideo, getArchived, deletePhotoVid, updatePhotoWatermark} = require('../controllers/managePhotoVideo');
-  
+ 
+const {addManagePage, getAllManagePage, getOneManagePage, deleteOneManagePage, updateOneManagePage} = require('../controllers/managePage');
   const fileFilter = (req, file, cb) => {
     // reject a file
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
@@ -117,5 +118,10 @@ router.post('/admin/add/watermark/letter', requireSigninUser, addWaterMarkLetter
 router.get('/admin/get/one/watermark', requireSigninUser, getWatermark);
 router.delete('/admin/delete/watermark', requireSigninUser, deleteWatermark);
 
+router.post('/admin/add/page', requireSigninUser, addManagePage);
+router.get('/admin/get/page', requireSigninUser, getAllManagePage);
+router.get('/admin/get/one/page', requireSigninUser, getOneManagePage);
+router.delete('/admin/delete/page', requireSigninUser, deleteOneManagePage);
+router.put('/admin/update/page', requireSigninUser, updateOneManagePage);
 
 module.exports = router;

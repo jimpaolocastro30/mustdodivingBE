@@ -14,6 +14,24 @@ const managePageSchema = new mongoose.Schema(
         pageDescription:{
             type:String
         },
+        scientificName:{
+            type:String
+        },
+        animalType:{
+            type:String
+        },
+        diet:{
+            type:String
+        },
+        averageLifeSpan:{
+            type:String
+        },
+        estimatedSize:{
+            type:String
+        },
+        estimatedWeight:{
+            type:String
+        },
         pageBody:{
             type:String
         },

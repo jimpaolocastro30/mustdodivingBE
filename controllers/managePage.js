@@ -12,8 +12,8 @@ exports.addManagePage = (req, res) => {
   var pageId = transactionPrefix + moment().format("x");
   let dateCreated = new Date();
   let dateUpdated = new Date();
-  const { pageUrl, pageTitle, pageDescription, pageBody} = req.body;
-  let mmedias = new mpage({ pageId, pageUrl, pageTitle, pageDescription, pageBody, dateCreated, dateUpdated});
+  const { pageUrl, pageTitle, pageDescription, animalType,scientificName, diet, averageLifeSpan, estimatedWeight, estimatedSize,  pageBody} = req.body;
+  let mmedias = new mpage({ pageId, pageUrl, pageTitle, pageDescription, animalType,scientificName, diet, averageLifeSpan, estimatedWeight, estimatedSize, pageBody, dateCreated, dateUpdated});
 
 
   mmedias.save((err, data) => {

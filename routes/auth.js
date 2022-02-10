@@ -20,6 +20,8 @@ const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedi
 
 const {addPhotosVideo, getArchived, deletePhotoVid, updatePhotoWatermark} = require('../controllers/managePhotoVideo');
  
+const {addMainUrl, addSubUrl, getOneMainUrl, getOneSubUrl, updateOneMainUrl, updateOneSubUrl, deleteOneMainUrl, deleteOneSubUrl, getSubUrl, getAllMainUrl } = require('../controllers/url');
+
 const {addManagePage, getAllManagePage, getOneManagePage, deleteOneManagePage, updateOneManagePage} = require('../controllers/managePage');
   const fileFilter = (req, file, cb) => {
     // reject a file
@@ -123,5 +125,24 @@ router.get('/admin/get/page', requireSigninUser, getAllManagePage);
 router.get('/admin/get/one/page', requireSigninUser, getOneManagePage);
 router.delete('/admin/delete/page', requireSigninUser, deleteOneManagePage);
 router.put('/admin/update/page', requireSigninUser, updateOneManagePage);
+
+
+
+router.post('/public/post/main/url', addMainUrl);
+router.get('/public/get/main/url', getAllMainUrl);
+router.get('/public/get/one/main/url', getOneMainUrl);
+router.delete('/public/delete/main/url', deleteOneMainUrl);
+router.put('/public/update/main/url', updateOneMainUrl);
+
+router.post('/public/post/sub/url', addSubUrl);
+router.get('/public/get/sub/url', getSubUrl);
+router.get('/public/get/one/sub/url', getOneSubUrl);
+router.delete('/public/delete/sub/url', deleteOneSubUrl);
+router.put('/public/update/sub/url', updateOneSubUrl);
+router.get('/public/get/one/page', getOneManagePage);
+router.get('/public/get/all/page', getAllManagePage);
+
+
+
 
 module.exports = router;

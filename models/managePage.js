@@ -6,7 +6,8 @@ const managePageSchema = new mongoose.Schema(
             type: String
         },
         pageUrl: {
-            type: String
+            type: String,
+            unique: true
         },
         pageTitle:{
             type:String
@@ -34,6 +35,10 @@ const managePageSchema = new mongoose.Schema(
         },
         pageBody:{
             type:String
+        },
+        isActive:{
+            type:String,
+            default:1
         },
         dateCreated:{
             type:Date

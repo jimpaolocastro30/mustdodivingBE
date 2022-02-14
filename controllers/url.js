@@ -1,5 +1,6 @@
 const trips = require('../models/urlMain');
 const subUrl = require('../models/urlSub');
+const pages = require('../models/managePage')
 var moment = require("moment");
 var _ = require("lodash");
 
@@ -39,8 +40,8 @@ const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10;
 
   const urlMain = req.query.urlMain;
   if (urlMain) {
-    trips.count({}).exec((err, total) => {
-        trips.find({ $or: [{ urlMain: { $regex: urlMain, $options: 'i' } }] }).skip((page - 1) * pagination).limit(pagination).sort({ "Name": 1 }).exec((err, tag) => {
+    pages.count({}).exec((err, total) => {
+        pages.find({ $or: [{ urlMain: { $regex: urlMain, $options: 'i' } }] }).skip((page - 1) * pagination).limit(pagination).sort({ "Name": 1 }).exec((err, tag) => {
               if (err) {
                   return res.status(400).json({
                       error: 'detachments not found'
@@ -56,9 +57,9 @@ const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10;
       });
   } else {
 
-    trips.count({}).exec((err, total) => {
+    pages.count({}).exec((err, total) => {
 
-        trips.find({}).skip((page - 1) * pagination).limit(pagination).exec((err, tag) => {
+        pages.find({}).skip((page - 1) * pagination).limit(pagination).select('pageTitle urlMain dateCreated dateUpdated').exec((err, tag) => {
               if (err) {
                   return res.status(400).json({
                       error: 'detachments not found'
@@ -75,9 +76,9 @@ const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10;
 };
 
 exports.getOneMainUrl = (req, res) => {
-const urlMainId = req.query.urlMainId;
+const urlMain = req.query.urlMain;
 
-subUrl.find({ urlMainId: urlMainId }).exec((err, tag) => {
+pages.find({ urlMain: urlMain }).exec((err, tag) => {
     if (err) {
         return res.status(400).json({
             error: 'product not found'

@@ -21,6 +21,12 @@ const managePageSchema = new mongoose.Schema(
         animalType:{
             type:String
         },
+        urlMain:{
+            type:String
+        },
+        urlSub:{
+            type:String
+        },
         diet:{
             type:String
         },

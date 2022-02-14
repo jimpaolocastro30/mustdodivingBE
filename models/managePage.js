@@ -6,8 +6,7 @@ const managePageSchema = new mongoose.Schema(
             type: String
         },
         pageUrl: {
-            type: String,
-            unique: true
+            type: String
         },
         pageTitle:{
             type:String
@@ -22,7 +21,8 @@ const managePageSchema = new mongoose.Schema(
             type:String
         },
         urlMain:{
-            type:String
+            type:String,
+            unique: true
         },
         urlSub:{
             type:String

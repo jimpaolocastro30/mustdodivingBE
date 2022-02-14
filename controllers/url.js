@@ -59,7 +59,7 @@ const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10;
 
     pages.count({}).exec((err, total) => {
 
-        pages.find({}).skip((page - 1) * pagination).limit(pagination).select('pageTitle urlMain dateCreated dateUpdated').distinct("pageTitle").exec((err, tag) => {
+        pages.find({}).skip((page - 1) * pagination).limit(pagination).select('pageTitle urlMain dateCreated dateUpdated').exec((err, tag) => {
               if (err) {
                   return res.status(400).json({
                       error: 'detachments not found'

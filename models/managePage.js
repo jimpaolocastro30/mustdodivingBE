@@ -42,6 +42,18 @@ const managePageSchema = new mongoose.Schema(
         pageBody:{
             type:String
         },
+        photoId:{
+            type:String
+        },
+        photosVideo: {
+            type: String
+        },
+        animals: {
+            type: String
+        },
+        subAnimal:{
+            type:String
+        },
         isActive:{
             type:String,
             default:1

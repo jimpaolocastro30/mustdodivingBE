@@ -42,17 +42,10 @@ const managePageSchema = new mongoose.Schema(
         pageBody:{
             type:String
         },
-        photoId:{
-            type:String
-        },
-        photosVideo: {
-            type: String
-        },
-        animals: {
-            type: String
-        },
-        subAnimal:{
-            type:String
+        photoVideo:{
+            type: {},
+            min: 200,
+            max: 2000000
         },
         isActive:{
             type:String,

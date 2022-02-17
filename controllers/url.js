@@ -238,11 +238,10 @@ exports.deleteOneMainUrl = (req, res) => {
           exports.getOnePublicPhotoVideo = (req, res) => {
             const animals = req.query.animals;
             const subAnimal = req.query.subAnimal;
-
-            console.log("dasdsada " + animals);
-            console.log("subAimal " + subAnimal);
-            
-            mphotoVid.find({ $and: [{animals: animals} , {subAnimal: subAnimal}] }).exec((err, tag) => {
+            let encoded = encodeURIComponent(subAnimal);
+            let decodedSub = decodeURIComponent(encoded);
+            console.log("dasdsada " + decodedSub)
+            mphotoVid.find({ $and: [{animals: animals} , {subAnimal: decodedSub}] }).exec((err, tag) => {
                 if (err) {
                     return res.status(400).json({
                         error: 'product not found'

@@ -295,7 +295,7 @@ exports.deleteOneMainUrl = (req, res) => {
                     let encoded = encodeURIComponent(subAnimal);
                     let decodedSub = decodeURIComponent(encoded);
                     console.log("dasdsada " + decodedSub)
-                    mphotoVid.find({ $and: [{animals: {$ne: animals}} , {subAnimal: {$ne: decodedSub}}] }).exec((err, tag) => {
+                    mphotoVid.find({ $and: [{animals: {$ne: animals}} , {subAnimal: {$ne: decodedSub}}, {animals: null} , {subAnimal: null}] }).exec((err, tag) => {
                         if (err) {
                             return res.status(400).json({
                                 error: 'product not found'
@@ -305,3 +305,44 @@ exports.deleteOneMainUrl = (req, res) => {
                         res.json({ "identifier": "Get One urlId", tag});
                     });
                     };          
+
+                    exports.getAllNonePublicPhotoVideo3 = (req, res) => {
+                        const animals = req.query.animals;
+                        const subAnimal = req.query.subAnimal;
+                        let encoded = encodeURIComponent(subAnimal);
+                        let decodedSub = decodeURIComponent(encoded);
+                        console.log("dasdsada " + decodedSub)
+                        mphotoVid.find({ $and: [{animals: {$ne: animals}} , {subAnimal: {$ne: decodedSub}}, {subAnimal: null}] }).exec((err, tag) => {
+                            if (err) {
+                                return res.status(400).json({
+                                    error: 'product not found'
+                                });
+                                
+                            }
+                            res.json({ "identifier": "Get One urlId", tag});
+                        });
+                        };          
+
+
+ exports.getAllPublicManageMedia = (req, res) => {
+   
+  const pagination = req.query.pagination ? parseInt(req.query.pagination) : 26;
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+
+  mphotoVid.count({}).exec((err, total) => {
+
+    mphotoVid.find({}).skip((page - 1) * pagination).limit(pagination).exec((err, tag) => {
+              if (err) {
+                  return res.status(400).json({
+                      error: 'detachments not found'
+                  });
+              }
+              res.json({
+                "identifier": "get all manage media", tag
+            });
+        });
+      });
+  
+
+};
+                       

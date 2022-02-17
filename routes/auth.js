@@ -20,7 +20,7 @@ const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedi
 
 const {addPhotosVideo, getArchived, deletePhotoVid, updatePhotoWatermark} = require('../controllers/managePhotoVideo');
  
-const {addMainUrl, addSubUrl, getOneMainUrl, getOneSubUrl, updateOneMainUrl, updateOneSubUrl, deleteOneMainUrl, deleteOneSubUrl, getSubUrl, getAllMainUrl, getOnePublicPhotoVideo,getAllNonePublicPhotoVideo, getAllNonePublicPhotoVideo2 } = require('../controllers/url');
+const {addMainUrl, addSubUrl, getOneMainUrl, getOneSubUrl, updateOneMainUrl, updateOneSubUrl, deleteOneMainUrl, deleteOneSubUrl, getSubUrl, getAllMainUrl, getOnePublicPhotoVideo,getAllNonePublicPhotoVideo, getAllNonePublicPhotoVideo2, getAllNonePublicPhotoVideo3, getAllPublicManageMedia } = require('../controllers/url');
 
 const {addManagePage, getAllManagePage, getOneManagePage, deleteOneManagePage, updateOneManagePage} = require('../controllers/managePage');
   const fileFilter = (req, file, cb) => {
@@ -144,6 +144,9 @@ router.get('/public/get/all/page', getAllManagePage);
 router.get('/public/get/one/photo-video', getOnePublicPhotoVideo);
 router.get('/public/get/one/none/photo-video', getAllNonePublicPhotoVideo);
 router.get('/public/get/one/tes/pv', getAllNonePublicPhotoVideo2);
+router.get('/public/get/one/test/vp', getAllNonePublicPhotoVideo3);
+router.get('/public/get/main/page', getAllPublicManageMedia);
+
 
 
 

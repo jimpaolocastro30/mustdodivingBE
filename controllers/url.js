@@ -1,6 +1,7 @@
 const trips = require('../models/urlMain');
 const subUrl = require('../models/urlSub');
 const pages = require('../models/managePage')
+const mphotoVid = require('../models/managePhotoVideo')
 var moment = require("moment");
 var _ = require("lodash");
 
@@ -231,4 +232,23 @@ exports.deleteOneMainUrl = (req, res) => {
               res.json({ "identifier": "Delete One" + urlSubId});
           });
           };
-      
+
+          
+
+          exports.getOnePublicPhotoVideo = (req, res) => {
+            const animals = req.query.animals;
+            const subAnimal = req.query.subAnimal;
+
+            console.log("dasdsada " + animals);
+            console.log("subAimal " + subAnimal);
+            
+            mphotoVid.find({ $and: [{animals: animals} , {subAnimal: subAnimal}] }).exec((err, tag) => {
+                if (err) {
+                    return res.status(400).json({
+                        error: 'product not found'
+                    });
+                    
+                }
+                res.json({ "identifier": "Get One urlId", tag});
+            });
+            };          

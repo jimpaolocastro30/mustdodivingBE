@@ -20,7 +20,7 @@ const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedi
 
 const {addPhotosVideo, getArchived, deletePhotoVid, updatePhotoWatermark} = require('../controllers/managePhotoVideo');
  
-const {addMainUrl, addSubUrl, getOneMainUrl, getOneSubUrl, updateOneMainUrl, updateOneSubUrl, deleteOneMainUrl, deleteOneSubUrl, getSubUrl, getAllMainUrl } = require('../controllers/url');
+const {addMainUrl, addSubUrl, getOneMainUrl, getOneSubUrl, updateOneMainUrl, updateOneSubUrl, deleteOneMainUrl, deleteOneSubUrl, getSubUrl, getAllMainUrl, getOnePublicPhotoVideo } = require('../controllers/url');
 
 const {addManagePage, getAllManagePage, getOneManagePage, deleteOneManagePage, updateOneManagePage} = require('../controllers/managePage');
   const fileFilter = (req, file, cb) => {
@@ -141,7 +141,7 @@ router.delete('/public/delete/sub/url', deleteOneSubUrl);
 router.put('/public/update/sub/url', updateOneSubUrl);
 router.get('/public/get/one/page', getOneManagePage);
 router.get('/public/get/all/page', getAllManagePage);
-
+router.get('/public/get/one/photo-video', getOnePublicPhotoVideo);
 
 
 

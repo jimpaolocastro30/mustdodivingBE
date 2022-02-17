@@ -326,12 +326,9 @@ exports.deleteOneMainUrl = (req, res) => {
 
  exports.getAllPublicManageMedia = (req, res) => {
    
-  const pagination = req.query.pagination ? parseInt(req.query.pagination) : 26;
-  const page = req.query.page ? parseInt(req.query.page) : 1;
+ 
 
-  mphotoVid.count({}).exec((err, total) => {
-
-    mphotoVid.find({}).skip((page - 1) * pagination).limit(pagination).exec((err, tag) => {
+    mphotoVid.aggregate([{ $sample: { size: 26 } }]).exec((err, tag) => {
               if (err) {
                   return res.status(400).json({
                       error: 'detachments not found'
@@ -341,8 +338,6 @@ exports.deleteOneMainUrl = (req, res) => {
                 "identifier": "get all manage media", tag
             });
         });
-      });
-  
 
 };
                        

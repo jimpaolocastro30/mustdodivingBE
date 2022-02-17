@@ -251,3 +251,57 @@ exports.deleteOneMainUrl = (req, res) => {
                 res.json({ "identifier": "Get One urlId", tag});
             });
             };          
+
+            exports.getOnePublicPhotoVideo = (req, res) => {
+                const animals = req.query.animals;
+                const subAnimal = req.query.subAnimal;
+                let encoded = encodeURIComponent(subAnimal);
+                let decodedSub = decodeURIComponent(encoded);
+                console.log("dasdsada " + decodedSub)
+                mphotoVid.find({ $and: [{animals: animals} , {subAnimal: decodedSub}] }).exec((err, tag) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: 'product not found'
+                        });
+                        
+                    }
+                    res.json({ "identifier": "Get One urlId", tag});
+                });
+                };          
+
+
+                exports.getAllNonePublicPhotoVideo = (req, res) => {
+                    const animals = req.query.animals;
+                    const subAnimal = req.query.subAnimal;
+                    let encoded = encodeURIComponent(subAnimal);
+                    let decodedSub = decodeURIComponent(encoded);
+                    console.log("dasdsada " + decodedSub)
+                    mphotoVid.find({ $and: [{animals: {$ne: animals}} , {subAnimal: {$ne: decodedSub}},{animals: {$ne: null}} , {subAnimal: {$ne: null}}] }).exec((err, tag) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: 'product not found'
+                            });
+                            
+                        }
+                        res.json({ "identifier": "Get One urlId", tag});
+                    });
+                    };          
+
+
+                    
+                exports.getAllNonePublicPhotoVideo2 = (req, res) => {
+                    const animals = req.query.animals;
+                    const subAnimal = req.query.subAnimal;
+                    let encoded = encodeURIComponent(subAnimal);
+                    let decodedSub = decodeURIComponent(encoded);
+                    console.log("dasdsada " + decodedSub)
+                    mphotoVid.find({ $and: [{animals: {$ne: animals}} , {subAnimal: {$ne: decodedSub}}] }).exec((err, tag) => {
+                        if (err) {
+                            return res.status(400).json({
+                                error: 'product not found'
+                            });
+                            
+                        }
+                        res.json({ "identifier": "Get One urlId", tag});
+                    });
+                    };          

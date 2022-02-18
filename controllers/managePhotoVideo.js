@@ -109,7 +109,7 @@ const { video } = req.body;
       if (err)
         return res.status(400).json({ success: false, message: err.message });
   
-      await User.create({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 1, DateCreated: DateCreated});
+      await User.create({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
   
       res.status(200).json({ data: fileName });
     });

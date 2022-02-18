@@ -111,7 +111,7 @@ router.get('/admin/get/one/user/:slug', requireSigninUser, adminMiddleware, read
 router.put('/admin/update/user/:slug', requireSigninUser, adminMiddleware, updateUser);
 
 router.post('/admin/add/logo', requireSigninUser, addLogo);
-router.get('/admin/get/one/logo', requireSigninUser, getLogo);
+router.get('/admin/get/one/logo', getLogo);
 router.delete('/admin/delete/logo', requireSigninUser, deleteLogo);
 
 
@@ -152,3 +152,4 @@ router.get('/public/get/main/page', getAllPublicManageMedia);
 
 
 module.exports = router;
+ 

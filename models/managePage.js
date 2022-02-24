@@ -21,8 +21,7 @@ const managePageSchema = new mongoose.Schema(
             type:String
         },
         urlMain:{
-            type:String,
-            unique: true
+            type:String
         },
         urlSub:{
             type:String

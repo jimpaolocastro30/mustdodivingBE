@@ -7,7 +7,7 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 
   const {addMainAnimal, addSubAnimal,getAllAnimals, getOneAnimals, updateOneAnimals, getAllSubAnimalsByMainId, 
-    getOneSubAnimals, updateOneSubAnimals, deleteOneAnimals, deleteOneSubAnimals } = require('../controllers/animals')
+    getOneSubAnimals, updateOneSubAnimals, deleteOneAnimals, deleteOneSubAnimals, getAllAnimalMainSub } = require('../controllers/animals')
 
 
   const {addLocation, addSubLocation, getAllLocation, getAllSubLocalByMainId, getOneLocation, 
@@ -146,6 +146,8 @@ router.get('/public/get/one/none/photo-video', getAllNonePublicPhotoVideo);
 router.get('/public/get/one/tes/pv', getAllNonePublicPhotoVideo2);
 router.get('/public/get/one/test/vp', getAllNonePublicPhotoVideo3);
 router.get('/public/get/main/page', getAllPublicManageMedia);
+
+router.get('/public/get/main/animal', getAllAnimalMainSub);
 
 
 

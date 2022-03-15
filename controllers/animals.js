@@ -107,6 +107,7 @@ exports.addSubAnimal = (req, res) => {
 
 exports.getAllSubAnimalsByMainId = (req, res) => {
   var animalId = String(req.query.animalId);
+  
   subAnimal.find(
     { 
       animalsId:animalId
@@ -166,3 +167,16 @@ exports.deleteOneSubAnimals = (req, res) => {
         res.json({ "identifier": "Delete One Sub Animals"});
     });
     };
+
+
+    exports.getAllAnimalMainSub = (req, res) => {
+        subAnimal.find({ }).exec((err, tag) => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'product not found'
+                });
+                
+            }
+            res.json({ "identifier": "Get One Animals", tag});
+        });
+        };   

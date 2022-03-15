@@ -247,3 +247,10 @@ Content-Type: application/json
    "year" : 2018
 }
 
+
+
+### User Signin Mobile number ###
+GET {{url}}/public/get/main/animal
+
+
+

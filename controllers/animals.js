@@ -171,7 +171,7 @@ exports.deleteOneSubAnimals = (req, res) => {
 
     exports.getAllAnimalMainSub = async(req, res) => {
         try {
-            const query = animals.aggregate([
+            const query = animal.aggregate([
                 {
                     $lookup: {
                         from: "subAnimals",
@@ -182,9 +182,11 @@ exports.deleteOneSubAnimals = (req, res) => {
                 }
             ]);
             let result = await query.exec();
+            console.log("pasok ", result)
             res.json({"identifier": "Get One Animals", result})
         }
         catch(err) {
+            console.log("pasok err", err)
             res.json(err);
         }
     };

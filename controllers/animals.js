@@ -171,18 +171,28 @@ exports.deleteOneSubAnimals = (req, res) => {
 
     exports.getAllAnimalMainSub = async(req, res) => {
         try {
+            let test = await subAnimal.find();
+            console.log({test})
             const query = animal.aggregate([
                 {
                     $lookup: {
-                        from: "subAnimals",
-                        localField: "animalsId",
+                        from: "subanimals",//!!!!!!! ALWAYS CHECK THE COLLECTION NAME hahaha
                         foreignField: "animalsId",
-                        as: "animals"
+                        localField: "animalsId",
+                        as: "subAnimals"
+                    }
+                },
+                {
+                    $project: { // pwede mo alisin to kung gusto mo ilabas lahat ng fields from both collections.
+                        "_id": 1, //  redundant kasi kaya ko to ginawa
+                        "animalsId": 1,
+                        "subAnimals": {
+                            _id: 1, subAnimalsId: 1
+                        }
                     }
                 }
             ]);
             let result = await query.exec();
-            console.log("pasok ", result)
             res.json({"identifier": "Get One Animals", result})
         }
         catch(err) {

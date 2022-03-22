@@ -169,14 +169,22 @@ exports.deleteOneSubAnimals = (req, res) => {
     };
 
 
-    exports.getAllAnimalMainSub = (req, res) => {
-        subAnimal.find({ }).exec((err, tag) => {
-            if (err) {
-                return res.status(400).json({
-                    error: 'product not found'
-                });
-                
-            }
-            res.json({ "identifier": "Get One Animals", tag});
-        });
-        };   
+    exports.getAllAnimalMainSub = async(req, res) => {
+        try {
+            const query = animals.aggregate([
+                {
+                    $lookup: {
+                        from: "subAnimals",
+                        localField: "animalsId",
+                        foreignField: "animalsId",
+                        as: "animals"
+                    }
+                }
+            ]);
+            let result = await query.exec();
+            res.json({"identifier": "Get One Animals", result})
+        }
+        catch(err) {
+            res.json(err);
+        }
+    };

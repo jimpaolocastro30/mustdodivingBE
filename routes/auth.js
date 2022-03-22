@@ -11,7 +11,7 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 
 
   const {addLocation, addSubLocation, getAllLocation, getAllSubLocalByMainId, getOneLocation, 
-    getOneSubLocal, updateOneLocation, updateOneSubLocal, deleteOneLocation, deleteOneSubLocation} = require('../controllers/location')
+    getOneSubLocal, updateOneLocation, updateOneSubLocal, deleteOneLocation, deleteOneSubLocation, getAllLocationMainSub} = require('../controllers/location')
 
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips, deleteOneTrips} = require('../controllers/trips');
 
@@ -149,6 +149,7 @@ router.get('/public/get/main/page', getAllPublicManageMedia);
 
 router.get('/public/get/main/animal', getAllAnimalMainSub);
 
+router.get('/public/get/main/location', getAllLocationMainSub);
 
 
 

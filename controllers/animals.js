@@ -186,8 +186,9 @@ exports.deleteOneSubAnimals = (req, res) => {
                     $project: { // pwede mo alisin to kung gusto mo ilabas lahat ng fields from both collections.
                         "_id": 1, //  redundant kasi kaya ko to ginawa
                         "animalsId": 1,
+                        "animalsMain" : 1,
                         "subAnimals": {
-                            _id: 1, subAnimalsId: 1
+                            _id: 1, subAnimalsId: 1, subAnimals: 1
                         }
                     }
                 }

@@ -160,3 +160,39 @@ exports.deleteOneSubLocation = (req, res) => {
         res.json({ "identifier": "Delete One Sub location"});
     });
     };
+
+
+
+    exports.getAllLocationMainSub = async(req, res) => {
+        try {
+            let test = await subLocation.find();
+            // console.log("pasok 11", {test})
+            const query = location.aggregate([
+                {
+                    $lookup: {
+                        from: "sublocations",//!!!!!!! ALWAYS CHECK THE COLLECTION NAME hahaha
+                        foreignField: "locationId",
+                        localField: "locationId",
+                        as: "sublocations"
+                    }
+                },
+                {
+                    $project: { // pwede mo alisin to kung gusto mo ilabas lahat ng fields from both collections.
+                        "_id": 1, //  redundant kasi kaya ko to ginawa
+                        "locationId": 1,
+                        "locationName": 1,
+                        "sublocations": {
+                            _id: 1, subLocationId: 1, subLocationName: 1
+                        }
+                    }
+                }
+            ]);
+            let result = await query.exec();
+            console.log("sadsada " + query)
+            res.json({"identifier": "Get One Location", result})
+        }
+        catch(err) {
+            console.log("pasok err", err)
+            res.json(err);
+        }
+    };

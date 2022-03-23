@@ -26,51 +26,51 @@ exports.addMainTrips = (req, res) => {
 
 exports.getAllTrips = (req, res) => {
    
-//   trips.find({}).exec((err, tag) => {
-//         if (_.isEmpty(tag)) {
-//             return res.status(400).json({
-//                 error: 'lookup not found'
-//             });
-//         }
-//         res.json({ "identifier": "GetAll-Trips", tag});
-//     });
-const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10;
-  const page = req.query.page ? parseInt(req.query.page) : 1;
-
-  const tripName = req.query.tripName;
-  if (tripName) {
-    trips.count({}).exec((err, total) => {
-        trips.find({ $or: [{ tripName: { $regex: tripName, $options: 'i' } }] }).skip((page - 1) * pagination).limit(pagination).sort({ "Name": 1 }).exec((err, tag) => {
-              if (err) {
-                  return res.status(400).json({
-                      error: 'detachments not found'
-                  });
-              }
-
-              res.json({
-                  "identifier": "get all manage media", tag,
-                  pagination, page, total
-              });
-
-          });
-      });
-  } else {
-
-    trips.count({}).exec((err, total) => {
-
-        trips.find({}).skip((page - 1) * pagination).limit(pagination).exec((err, tag) => {
-              if (err) {
-                  return res.status(400).json({
-                      error: 'detachments not found'
-                  });
-              }
-              res.json({
-                "identifier": "get all manage media", tag,
-                pagination, page, total
+  trips.find({}).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
             });
-        });
-      });
-  }
+        }
+        res.json({ "identifier": "GetAll-Trips", tag});
+    });
+// const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10;
+//   const page = req.query.page ? parseInt(req.query.page) : 1;
+
+//   const tripName = req.query.tripName;
+//   if (tripName) {
+//     trips.count({}).exec((err, total) => {
+//         trips.find({ $or: [{ tripName: { $regex: tripName, $options: 'i' } }] }).skip((page - 1) * pagination).limit(pagination).sort({ "Name": 1 }).exec((err, tag) => {
+//               if (err) {
+//                   return res.status(400).json({
+//                       error: 'detachments not found'
+//                   });
+//               }
+
+//               res.json({
+//                   "identifier": "get all manage media", tag,
+//                   pagination, page, total
+//               });
+
+//           });
+//       });
+//   } else {
+
+//     trips.count({}).exec((err, total) => {
+
+//         trips.find({}).skip((page - 1) * pagination).limit(pagination).exec((err, tag) => {
+//               if (err) {
+//                   return res.status(400).json({
+//                       error: 'detachments not found'
+//                   });
+//               }
+//               res.json({
+//                 "identifier": "get all manage media", tag,
+//                 pagination, page, total
+//             });
+//         });
+//       });
+//   }
 
 };
 

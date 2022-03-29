@@ -156,7 +156,7 @@ subAnimal.updateOne(myquery, newV).exec((err, tag) => {
 
 exports.deleteOneSubAnimals = (req, res) => {
     var subAnimalsId = req.query.subAnimalsId;
-    console.log("dasdas " + subAnimalsId)
+   
     subAnimal.deleteOne({ subAnimalsId: subAnimalsId }).exec((err, tag) => {
         if (err) {
             return res.status(400).json({

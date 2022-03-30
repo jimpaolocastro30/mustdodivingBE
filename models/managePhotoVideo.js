@@ -29,7 +29,9 @@ const managePhotoVideoSchema = new mongoose.Schema(
         Trips: {
             type: String
         },
-
+        description: {
+            type: String
+        },
         isVideo:{
             type:String
         },

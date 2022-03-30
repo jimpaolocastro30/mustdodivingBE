@@ -13,8 +13,8 @@ exports.addManageMedia = (req, res) => {
   var mmediaId = transactionPrefix + moment().format("x");
   let DateCreated = new Date();
 
-  const { photosVideo, animals, location, yearType, Trips} = req.body;
-  let mmedias = new mmedia({ mmediaId, photosVideo, animals, location, yearType, Trips, DateCreated});
+  const { photosVideo, animals, location, yearType, Trips, description} = req.body;
+  let mmedias = new mmedia({ mmediaId, photosVideo, animals, location, yearType, Trips,description, DateCreated});
 
 
   mmedias.save((err, data) => {

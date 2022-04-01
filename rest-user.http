@@ -1,6 +1,6 @@
-@url = http://localhost:5000/api
+@url = http://3.141.45.127:5000/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NDE3OTMzNjMsImV4cCI6MTY0MTg3OTc2M30.-JAn6AxjPLJBdcUARL5GM5r1tQl1kmh3s2nIlr8UHUY
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NDg4MTUxOTEsImV4cCI6MTY0ODkwMTU5MX0.H7eCmwgZf8EDi920yZO9bPQFcOXgZToVHWg1I6EAIhw
 
 ## User Registration ##
 POST {{url}}/signup
@@ -64,7 +64,7 @@ Content-Type: application/json
 
 
 ### User Signin Mobile number ###
-DELETE {{url}}/admin/delete/animal?animalsId=mainAnimals1641793723084
+DELETE {{url}}/admin/delete/animal?animalsId=mainAnimals1646715086838
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -92,7 +92,7 @@ Authorization: Bearer {{token}}
 
 
 ### User Signin Mobile number ###
-GET {{url}}/admin/get/query/sub-animal?animalId=mainAnimals1641559408209
+GET {{url}}/admin/get/query/sub-animal?animalId=mainAnimals1646716175394
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -234,6 +234,17 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
+### User Signin Mobile number ###
+GET {{url}}/admin/get/manage/media
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+
+### User Signin Mobile number ###
+DELETE {{url}}/admin/delete/manage/media
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 ### User Signin Mobile number ###
 PUT {{url}}/admin/update/trips?tripId=trips1641638103755
@@ -251,6 +262,9 @@ Content-Type: application/json
 
 ### User Signin Mobile number ###
 GET {{url}}/public/get/main/animal
+
+### User Signin Mobile number ###
+GET {{url}}/public/get/main/location
 
 
 

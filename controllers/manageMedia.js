@@ -131,15 +131,15 @@ mmedia.updateOne(myquery, newV).exec((err, tag) => {
 
 
 exports.deleteOneManageMedia = (req, res) => {
-    var mmediaId = req.query.mmediaId;
-    mmedia.deleteOne({ mmediaId: mmediaId }).exec((err, tag) => {
+    var photoId = req.query.photoId;
+    mmedia.deleteOne({ photoId: photoId }).exec((err, tag) => {
         if (err) {
             return res.status(400).json({
                 error: 'product not found'
             });
             
         }
-        res.json({ "identifier": "Delete One Manage Media :" + mmediaId});
+        res.json({ "identifier": "Delete One Manage Media :" + photoId});
     });
     };
 
@@ -248,11 +248,12 @@ exports.addLogo = (req, res) => {
           
             uploadSingle(req, res, async (err) => {
               var fileName = req.file.location;
+              var outputS = "yes"
               var watermarkLocation = req.body.watermarkLocation
               if (err)
                 return res.status(400).json({ success: false, message: err.message });
           
-              await watermarkM.create({ watermarkId: watermarkId, watermarkLocation: watermarkLocation, watermark: fileName, isWatermarkPhoto: 1, DateCreated: DateCreated});
+              await watermarkM.create({ watermarkId: watermarkId, watermarkLocation: watermarkLocation, watermark: fileName, isWatermarkPhoto: outputS, DateCreated: DateCreated});
           
               res.status(200).json({ data: fileName });
             });
@@ -262,9 +263,9 @@ exports.addLogo = (req, res) => {
         var transactionPrefix = "watermarkDive";
         var watermarkId = transactionPrefix + moment().format("x");
         let DateCreated = new Date();
-
+        var outputS = "no"
         const { letterWatermark, watermarkLocation } = req.body;
-        let postwaterMark = new watermarkM({watermarkId, watermarkLocation, letterWatermark, DateCreated, isWatermarkPhoto: 0});
+        let postwaterMark = new watermarkM({watermarkId, watermarkLocation, letterWatermark, DateCreated, isWatermarkPhoto: outputS});
 
 
         postwaterMark.save((err, data) => {

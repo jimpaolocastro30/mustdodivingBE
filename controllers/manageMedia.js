@@ -10,11 +10,11 @@ const multerS3 = require("multer-s3");
 exports.addManageMedia = (req, res) => {
 
   var transactionPrefix = "manageMedia";
-  var mmediaId = transactionPrefix + moment().format("x");
+  var photosId = transactionPrefix + moment().format("x");
   let DateCreated = new Date();
 
   const { photosVideo, animals, location, yearType, Trips, description} = req.body;
-  let mmedias = new mmedia({ mmediaId, photosVideo, animals, location, yearType, Trips,description, DateCreated});
+  let mmedias = new mmedia({ photosId, photosVideo, animals, location, yearType, Trips,description, DateCreated});
 
 
   mmedias.save((err, data) => {
@@ -25,7 +25,7 @@ exports.addManageMedia = (req, res) => {
           });
       }
 
-      res.json("Manage Media added! " + mmediaId); // dont do this res.json({ tag: data });
+      res.json("Manage Media added! " + photosId); // dont do this res.json({ tag: data });
   });
 };
 

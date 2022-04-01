@@ -242,7 +242,7 @@ Content-Type: application/json
 
 
 ### User Signin Mobile number ###
-DELETE {{url}}/admin/delete/manage/media
+DELETE {{url}}/admin/delete/manage/media?photoId=manageMedia1643768026364
 Authorization: Bearer {{token}}
 Content-Type: application/json
 

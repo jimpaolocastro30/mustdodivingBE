@@ -101,9 +101,9 @@ exports.getAllManageMedia = (req, res) => {
 };
 
 exports.getOneManageMedia = (req, res) => {
-const mmediaId = req.query.mmediaId;
+const photosId = req.query.photosId;
 
-mmedia.findOne({ mmediaId: mmediaId }).exec((err, tag) => {
+mmedia.findOne({ photosId: photosId }).exec((err, tag) => {
     if (err) {
         return res.status(400).json({
             error: 'product not found'
@@ -115,7 +115,7 @@ mmedia.findOne({ mmediaId: mmediaId }).exec((err, tag) => {
 };
 
 exports.updateOneManageMedia = (req, res) => {
- const photoId = req.query.photoId;
+ const photosId = req.query.photosId;
 var myquery = { photoId: photoId }
 var newV = req.body;
 
@@ -131,8 +131,8 @@ mmedia.updateOne(myquery, newV).exec((err, tag) => {
 
 
 exports.deleteOneManageMedia = (req, res) => {
-    var photoId = req.query.photoId;
-    mmedia.deleteOne({ photoId: photoId }).exec((err, tag) => {
+    var photosId = req.query.photosId;
+    mmedia.deleteOne({ photosId: photosId }).exec((err, tag) => {
         if (err) {
             return res.status(400).json({
                 error: 'product not found'

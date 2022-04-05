@@ -125,7 +125,7 @@ mmedia.updateOne(myquery, newV).exec((err, tag) => {
             error: 'cant update Trips'
         });
     }
-    res.json("Message: Successfully updated Manage Media " + photoId);
+    res.json("Message: Successfully updated Manage Media " + slug);
 });
 };
 

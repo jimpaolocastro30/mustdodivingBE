@@ -116,7 +116,7 @@ mmedia.findOne({ _id: slug }).exec((err, tag) => {
 
 exports.updateOneManageMedia = (req, res) => {
   const slug = req.params.slug;
-var myquery = { photoId: slug }
+var myquery = { _id: slug }
 var newV = req.body;
 
 mmedia.updateOne(myquery, newV).exec((err, tag) => {
@@ -132,14 +132,14 @@ mmedia.updateOne(myquery, newV).exec((err, tag) => {
 
 exports.deleteOneManageMedia = (req, res) => {
       const slug = req.params.slug;
-    mmedia.deleteOne({ photosId: slug }).exec((err, tag) => {
+    mmedia.deleteOne({ _id: slug }).exec((err, tag) => {
         if (err) {
             return res.status(400).json({
                 error: 'product not found'
             });
             
         }
-        res.json({ "identifier": "Delete One Manage Media :" + photoId});
+        res.json({ "identifier": "Delete One Manage Media :" });
     });
     };
 

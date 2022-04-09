@@ -1,4 +1,4 @@
-const mpage = require('../models/managePage');
+const mpage = require('../models/finaleManagePage');
 const watermarkM = require('../models/watermarkManagement')
 var moment = require("moment");
 const aws = require("aws-sdk");
@@ -10,10 +10,8 @@ exports.addManagePage = (req, res) => {
 
   var transactionPrefix = "managePageid";
   var pageId = transactionPrefix + moment().format("x");
-  let dateCreated = new Date();
-  let dateUpdated = new Date();
-  const { pageUrl, pageTitle, pageDescription, animalType,scientificName, diet, averageLifeSpan,urlMain, urlSub, estimatedWeight, estimatedSize,  pageBody, photoVideo} = req.body;
-  let mmedias = new mpage({ pageId, pageUrl, pageTitle, pageDescription, animalType,scientificName, urlMain, urlSub, diet, averageLifeSpan, estimatedWeight, photoVideo, estimatedSize, pageBody, dateCreated, dateUpdated});
+  const { pageUrl, pageTitle, pageDescription, topbar, topbarBgColor, topbarSize, menuFontFamily, menuFontColor, menuBgColor, menuSize,  menuHorizontalPosition, menuVerticalPosition, menuType, menuHoverColor, menuLogoVerticalPosition, menuLogoHorizontalPosition, menuLogoType, menuLogoSize, menuLogoLocation, mainBgColor, mainMediaBg, smType_,socialMediaAccounts, mediaFilterer, footerSubscription, footerSubscriptionText, footerSubscriptionHorizontalPosition, footerSubscriptionVerticalPosition, footerBgColor, footerSize, footerHoverColor, footerFontFamily, footerFontSize, footerFontColor, footerLogoType, footerLogoSize, footerLogoHorizontalPosition, footerLogoVerticalPosition, footerCopyrightsText, footerCopyrightsFontSize, footerCopyrightsFontFamily, footerCopyrightsColor, headerMedia, headerMediaType, headerSlogan, headerSloganFontFamily, headerSloganFontSize, headerSloganColor, headerYoutubeLink, headerMediaFiles, mainContentItems} = req.body;
+  let mmedias = new mpage({ pageId, pageUrl, pageUrl, pageTitle, pageDescription, topbar, topbarBgColor, topbarSize, menuFontFamily, menuFontColor, menuBgColor, menuSize,  menuHorizontalPosition, menuVerticalPosition, menuType, menuHoverColor, menuLogoVerticalPosition, menuLogoHorizontalPosition, menuLogoType, menuLogoSize, menuLogoLocation, mainBgColor, mainMediaBg, smType_,socialMediaAccounts, mediaFilterer, footerSubscription, footerSubscriptionText, footerSubscriptionHorizontalPosition, footerSubscriptionVerticalPosition, footerBgColor, footerSize, footerHoverColor, footerFontFamily, footerFontSize, footerFontColor, footerLogoType, footerLogoSize, footerLogoHorizontalPosition, footerLogoVerticalPosition, footerCopyrightsText, footerCopyrightsFontSize, footerCopyrightsFontFamily, footerCopyrightsColor, headerMedia, headerMediaType, headerSlogan, headerSloganFontFamily, headerSloganFontSize, headerSloganColor, headerYoutubeLink, headerMediaFiles, mainContentItems});
 
 
   mmedias.save((err, data) => {

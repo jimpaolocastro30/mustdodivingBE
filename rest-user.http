@@ -1,4 +1,4 @@
-@url = http://3.141.45.127:5000/api
+@url = http://localhost:5000/api
 
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NDg4MTUxOTEsImV4cCI6MTY0ODkwMTU5MX0.H7eCmwgZf8EDi920yZO9bPQFcOXgZToVHWg1I6EAIhw
 
@@ -233,6 +233,20 @@ GET {{url}}/admin/get/one/trips?tripId=trips1641638103755
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+### User Signin Mobile number ###
+POST {{url}}/admin/post/manage/media
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+"photosVideo" : "https://mdodive.s3.us-east-2.amazonaws.com/image-1646629082012.jpeg", 
+"animals" : "Whale", 
+"location" : "Philippines/Sogo", 
+"yearType" : "2021/April", 
+"Trips" : "Sogo in camsur",
+"description" : "so clean so good"
+
+}
 
 ### User Signin Mobile number ###
 GET {{url}}/admin/get/manage/media
@@ -268,3 +282,82 @@ GET {{url}}/public/get/main/location
 
 
 
+### User Signin Mobile number ###
+POST {{url}}/admin/add/page
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "pageUrl": "",
+  "pageTitle": "",
+  "pageDescription": "",
+  "topbar": "on",
+  "topbarBgColor": "#333333",
+  "topbarSize": "medium",
+  "menuFontFamily": "Montserrat",
+  "menuFontSize": "medium",
+  "menuFontColor": "#eeeeee",
+  "menuBgColor": "#333333",
+  "menuSize": "medium",
+  "menuHorizontalPosition": "center",
+  "menuVerticalPosition": "center",
+  "menuType": "static",
+  "menuHoverColor": "#ffffff",
+  "menuLogoVerticalPosition": "center",
+  "menuLogoHorizontalPosition": "left",
+  "menuLogoType": "light",
+  "menuLogoSize": "small",
+  "menuLogoLocation": "inside-menubar",
+  "mainBgColor": "#ffffff",
+  "mainMediaBg": "#f8f8f8",
+  "smType_": "solid",
+  "socialMediaAccounts": [
+    {
+      "smColor": "#333",
+      "smName": "facebook",
+      "smType": "solid",
+      "smURL": "https://www.facebook.com/mustdodiving"
+    }
+  ],
+  "mediaFilterer": "yes",
+  "footerSubscription": "yes",
+  "footerSubscriptionText": "",
+  "footerSubscriptionHorizontalPosition": "right",
+  "footerSubscriptionVerticalPosition": "center",
+  "footerBgColor": "#333333",
+  "footerSize": "medium",
+  "footerHoverColor": "#ffffff",
+  "footerFontFamily": "Montserrat",
+  "footerFontSize": "small",
+  "footerFontColor": "#eeeeee",
+  "footerLogoType": "light",
+  "footerLogoSize": "large",
+  "footerLogoHorizontalPosition": "left",
+  "footerLogoVerticalPosition": "center",
+  "footerCopyrightsText": "Copyrights 2022. Must Do Diving. All rights reserved.",
+  "footerCopyrightsFontSize": "small",
+  "footerCopyrightsFontFamily": "Montserrat",
+  "footerCopyrightsColor": "#eeeeee",
+  "headerMedia": "yes",
+  "headerMediaType": "video",
+  "headerMediaVideoControl": "no",
+  "headerSlogan": "",
+  "headerSloganFontFamily": "Poppins",
+  "headerSloganFontSize": "large",
+  "headerSloganColor": "#ffffff",
+  "headerYoutubeLink": "",
+  "headerMediaFiles": [
+    "https://www.youtube.com/watch?v=6jP7WcO-b4U&list=RD6jP7WcO-b4U&start_radio=1"
+  ],
+  "mainContentItems": [
+    {
+      "index": 0,
+      "media": [
+        {
+          "type": "photo",
+          "url": "https://mdodive.s3.us-east-2.amazonaws.com/image-1642785408958.jpeg"
+        }
+      ]
+    }
+  ]
+}

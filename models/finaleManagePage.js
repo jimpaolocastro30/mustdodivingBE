@@ -177,6 +177,19 @@ const fManagePageSchema = new mongoose.Schema(
             min: 200,
             max: 2000000
         },
+        dateCreated:{
+            type:Date
+        },
+
+        dateUpdated:{
+            type:Date
+        },
+
+        isActive:{
+            type:String,
+            default:1
+        },
+
     },
     { timestamp: true }
 );

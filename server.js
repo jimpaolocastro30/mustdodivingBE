@@ -37,7 +37,7 @@ app.use('/uploads', express.static('uploads'))
 // cors
 
 
-app.use(cors({ origin: * }));
+app.use(cors({ origin: `*` }));
 
 
 // routes

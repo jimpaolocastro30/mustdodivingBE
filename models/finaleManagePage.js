@@ -177,6 +177,12 @@ const fManagePageSchema = new mongoose.Schema(
             min: 200,
             max: 2000000
         },
+        mainContentRows:{
+            type: {},
+            min: 200,
+            max: 2000000
+        }
+        ,
         dateCreated:{
             type:Date
         },

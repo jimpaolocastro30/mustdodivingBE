@@ -94,12 +94,21 @@ var myquery = { tripId: tripId }
 var newV = req.body;
 
 trips.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'cant update Trips'
-        });
-    }
-    res.json("Message: Successfully updated Trips " + tripId);
+    // if (err) {
+    //     return res.status(400).json({
+    //         error: 'cant update Trips'
+    //     });
+    // }
+    // res.json("Message: Successfully updated Trips " + tripId);
+
+    trips.find({}).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "identifier": "Update-Trips", tag});
+    });
 });
 };
 
@@ -108,12 +117,21 @@ exports.deleteOneTrips = (req, res) => {
     var tripId = req.query.tripId;
     console.log("dasdas " + tripId)
     trips.deleteOne({ tripId: tripId }).exec((err, tag) => {
-        if (err) {
-            return res.status(400).json({
-                error: 'product not found'
-            });
+        // if (err) {
+        //     return res.status(400).json({
+        //         error: 'product not found'
+        //     });
             
-        }
-        res.json({ "identifier": "Delete One Trips"});
+        // }
+        // res.json({ "identifier": "Delete One Trips"});
+
+        trips.find({}).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({ "identifier": "Delete-Trips", tag});
+        });
     });
     };

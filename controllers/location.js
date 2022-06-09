@@ -56,12 +56,22 @@ const locationId = req.query.locationId;
 var myquery = { locationId: locationId }
 var newV = req.body;
 location.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'cant update Animals'
-        });
-    }
-    res.json("Message: Successfully updated Location " + locationId);
+    // if (err) {
+    //     return res.status(400).json({
+    //         error: 'cant update Animals'
+    //     });
+    // }
+    // res.json("Message: Successfully updated Location " + locationId);
+
+    location.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "identifier": "Update-location", tag});
+    });
+
 });
 };
 
@@ -69,13 +79,21 @@ exports.deleteOneLocation = (req, res) => {
     var locationId = req.query.locationId;
     console.log("dasdas " + locationId)
     location.deleteOne({ locationId: locationId }).exec((err, tag) => {
-        if (err) {
-            return res.status(400).json({
-                error: 'product not found'
-            });
+        // if (err) {
+        //     return res.status(400).json({
+        //         error: 'product not found'
+        //     });
             
-        }
-        res.json({ "identifier": "Delete One location "});
+        // }
+        // res.json({ "identifier": "Delete One location "});
+        location.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({ "identifier": "Delete-location", tag});
+        });
     });
     };
 

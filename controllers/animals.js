@@ -41,14 +41,24 @@ exports.getAllAnimals = (req, res) => {
 exports.getOneAnimals = (req, res) => {
 var animalId = req.query.animalId;
 
+console.log("dasdadsa" + animalId)
 subAnimal.find({ animalsId: animalId }).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'product not found'
-        });
+    // if (err) {
+    //     return res.status(400).json({
+    //         error: 'product not found'
+    //     });
         
-    }
-    res.json({ "identifier": "Get One Animals", tag});
+    // }
+    // res.json({ "identifier": "Get One Animals", tag});
+
+    animal.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "Message: Successfully delete Animals": tag});
+    }); 
 });
 };
 
@@ -58,12 +68,21 @@ var myquery = { animalsId: animalId }
 var newV = req.body;
 
 animal.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'cant update Animals'
-        });
-    }
-    res.json("Message: Successfully updated Animals " + animalId);
+    // if (err) {
+    //     return res.status(400).json({
+    //         error: 'cant update Animals'
+    //     });
+    // }
+    // res.json("Message: Successfully updated Animals " + animalId);
+
+    animal.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "Message: Successfully updated Animals": tag});
+    }); 
 });
 };
 
@@ -71,13 +90,21 @@ exports.deleteOneAnimals = (req, res) => {
     var animalsId = req.query.animalsId;
     console.log("dasdas " + animalsId)
     animal.deleteOne({ animalsId: animalsId }).exec((err, tag) => {
-        if (err) {
-            return res.status(400).json({
-                error: 'product not found'
-            });
+        // if (err) {
+        //     return res.status(400).json({
+        //         error: 'product not found'
+        //     });
             
-        }
-        res.json({ "identifier": "deleted One Animals"});
+        // }
+        // res.json({ "identifier": "deleted One Animals"});
+        animal.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({ "Message: Successfully delete Animals": tag});
+        });     
     });
     };
 

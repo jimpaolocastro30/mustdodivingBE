@@ -14,15 +14,23 @@ exports.addLocation = (req, res) => {
 
 
   local.save((err, data) => {
-      console.log("check" + err)
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
+    //   console.log("check" + err)
+    //   if (err) {
+    //       return res.status(400).json({
+    //           error: err.errmsg
+    //       });
+    //   }
 
-      res.json("location added! " + locationName); // dont do this res.json({ tag: data });
-  });
+    //   res.json("location added! " + locationName); // dont do this res.json({ tag: data });
+    location.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "identifier": "Add-location", tag});
+    });
+});
 };
 
 exports.getAllLocation = (req, res) => {

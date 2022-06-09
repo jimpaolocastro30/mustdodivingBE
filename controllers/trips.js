@@ -14,14 +14,22 @@ exports.addMainTrips = (req, res) => {
 
   tripss.save((err, data) => {
       console.log("check" + err)
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
+    //   if (err) {
+    //       return res.status(400).json({
+    //           error: err.errmsg
+    //       });
+    //   }
 
-      res.json("animal added! " + tripName); // dont do this res.json({ tag: data });
-  });
+    //   res.json("animal added! " + tripName); // dont do this res.json({ tag: data });
+    trips.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "identifier": "GetAll-Trips", tag});
+    });
+});
 };
 
 exports.getAllTrips = (req, res) => {

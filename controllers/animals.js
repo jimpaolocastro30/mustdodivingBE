@@ -14,15 +14,23 @@ exports.addMainAnimal = (req, res) => {
 
 
   animalM.save((err, data) => {
-      console.log("check" + err)
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
+    //   console.log("check" + err)
+    //   if (err) {
+    //       return res.status(400).json({
+    //           error: err.errmsg
+    //       });
+    //   }
 
-      res.json("animal added! " + animalsMain); // dont do this res.json({ tag: data });
-  });
+    //   res.json("animal added! " + animalsMain); // dont do this res.json({ tag: data });
+    animal.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({ "identifier": "Add-Animals", tag});
+    });  
+});
 };
 
 exports.getAllAnimals = (req, res) => {

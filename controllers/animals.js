@@ -28,7 +28,7 @@ exports.addMainAnimal = (req, res) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "identifier": "Add-Animals", tag});
+        res.json({tag});
     });  
 });
 };
@@ -65,7 +65,7 @@ subAnimal.find({ animalsId: animalId }).exec((err, tag) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "Message: Successfully delete Animals": tag});
+        res.json({tag});
     }); 
 });
 };
@@ -74,6 +74,12 @@ exports.updateOneAnimals = (req, res) => {
   var animalId = req.query.animalId;
 var myquery = { animalsId: animalId }
 var newV = req.body;
+
+if (_.isEmpty(animalId)) {
+    return res.status(400).json({
+        error: 'animalId cannot be empty'
+    });
+}
 
 animal.updateOne(myquery, newV).exec((err, tag) => {
     // if (err) {
@@ -89,14 +95,21 @@ animal.updateOne(myquery, newV).exec((err, tag) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "Message: Successfully updated Animals": tag});
+        res.json({tag});
     }); 
 });
 };
 
 exports.deleteOneAnimals = (req, res) => {
     var animalsId = req.query.animalsId;
-    console.log("dasdas " + animalsId)
+
+    if (_.isEmpty(animalsId)) {
+        return res.status(400).json({
+            error: 'animalsId cannot be empty'
+        });
+    }
+    
+
     animal.deleteOne({ animalsId: animalsId }).exec((err, tag) => {
         // if (err) {
         //     return res.status(400).json({
@@ -111,7 +124,7 @@ exports.deleteOneAnimals = (req, res) => {
                     error: 'lookup not found'
                 });
             }
-            res.json({ "Message: Successfully delete Animals": tag});
+            res.json({tag});
         });     
     });
     };
@@ -127,15 +140,27 @@ exports.addSubAnimal = (req, res) => {
 
 
   animalM.save((err, data) => {
-      console.log("check" + err)
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
+    //   console.log("check" + err)
+    //   if (err) {
+    //       return res.status(400).json({
+    //           error: err.errmsg
+    //       });
+    //   }
 
-      res.json("animal added! " + subAnimals); // dont do this res.json({ tag: data });
-  });
+    //   res.json("animal added! " + subAnimals); // dont do this res.json({ tag: data });
+    subAnimal.find(
+        { 
+          animalsId:animalsId
+        }
+      ).sort({ "_id": -1 }).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({tag});
+        });
+});
 };
 
 
@@ -174,32 +199,82 @@ subAnimal.findOne({ subAnimalsId : subAnimalsId }).exec((err, tag) => {
 
 exports.updateOneSubAnimals = (req, res) => {
   var subAnimalsId = req.query.subAnimalsId;
-  console.log("dasdas " + subAnimalsId)
+  var animalId = req.query.animalId;
+
+  if (_.isEmpty(subAnimalsId)) {
+    return res.status(400).json({
+        error: 'subAnimalsId cannot be empty'
+    });
+}
+
+if (_.isEmpty(animalId)) {
+    return res.status(400).json({
+        error: 'animalId cannot be empty'
+    });
+}
+
 var myquery = { subAnimalsId : subAnimalsId }
 var newV = req.body;
 
 subAnimal.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'cant update Animals'
+    // if (err) {
+    //     return res.status(400).json({
+    //         error: 'cant update Animals'
+    //     });
+    // }
+    // res.json("Message: Successfully updated Animals " + subAnimalsId);
+    subAnimal.find(
+        { 
+          animalsId:animalId
+        }
+      ).sort({ "_id": -1 }).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({tag});
         });
-    }
-    res.json("Message: Successfully updated Animals " + subAnimalsId);
 });
 };
 
 
 exports.deleteOneSubAnimals = (req, res) => {
     var subAnimalsId = req.query.subAnimalsId;
-   
+    var animalId = req.query.animalId;
+    
+    if (_.isEmpty(subAnimalsId)) {
+        return res.status(400).json({
+            error: 'subAnimalsId cannot be empty'
+        });
+    }
+    
+    if (_.isEmpty(animalId)) {
+        return res.status(400).json({
+            error: 'animalId cannot be empty'
+        });
+    }
     subAnimal.deleteOne({ subAnimalsId: subAnimalsId }).exec((err, tag) => {
-        if (err) {
-            return res.status(400).json({
-                error: 'product not found'
-            });
+        // if (err) {
+        //     return res.status(400).json({
+        //         error: 'product not found'
+        //     });
             
-        }
-        res.json({ "identifier": "Delete One Sub Animals"});
+        // }
+        // res.json({ "identifier": "Delete One Sub Animals"});
+
+        subAnimal.find(
+            { 
+              animalsId:animalId
+            }
+          ).sort({ "_id": -1 }).exec((err, tag) => {
+                if (_.isEmpty(tag)) {
+                    return res.status(400).json({
+                        error: 'lookup not found'
+                    });
+                }
+                res.json({tag});
+            });
     });
     };
 

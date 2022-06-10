@@ -28,7 +28,7 @@ exports.addLocation = (req, res) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "identifier": "Add-location", tag});
+        res.json({tag});
     });
 });
 };
@@ -63,6 +63,13 @@ exports.updateOneLocation = (req, res) => {
 const locationId = req.query.locationId;
 var myquery = { locationId: locationId }
 var newV = req.body;
+
+if (_.isEmpty(locationId)) {
+    return res.status(400).json({
+        error: 'locationId cannot be empty'
+    });
+}
+
 location.updateOne(myquery, newV).exec((err, tag) => {
     // if (err) {
     //     return res.status(400).json({
@@ -77,7 +84,7 @@ location.updateOne(myquery, newV).exec((err, tag) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "identifier": "Update-location", tag});
+        res.json({tag});
     });
 
 });
@@ -85,7 +92,14 @@ location.updateOne(myquery, newV).exec((err, tag) => {
 
 exports.deleteOneLocation = (req, res) => {
     var locationId = req.query.locationId;
-    console.log("dasdas " + locationId)
+    
+    
+    if (_.isEmpty(locationId)) {
+        return res.status(400).json({
+            error: 'locationId cannot be empty'
+        });
+    }
+    
     location.deleteOne({ locationId: locationId }).exec((err, tag) => {
         // if (err) {
         //     return res.status(400).json({
@@ -100,7 +114,7 @@ exports.deleteOneLocation = (req, res) => {
                     error: 'lookup not found'
                 });
             }
-            res.json({ "identifier": "Delete-location", tag});
+            res.json({tag});
         });
     });
     };
@@ -116,14 +130,28 @@ exports.addSubLocation = (req, res) => {
 
 
   sublocal.save((err, data) => {
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
+//       if (err) {
+//           return res.status(400).json({
+//               error: err.errmsg
+//           });
+//       }
 
-      res.json("sub local added! " + subLocationName); // dont do this res.json({ tag: data });
-  });
+//       res.json("sub local added! " + subLocationName); // dont do this res.json({ tag: data });
+//   });
+
+subLocation.find(
+    { 
+        locationId:locationId
+    }
+  ).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({tag});
+    });
+});
 };
 
 
@@ -160,30 +188,81 @@ subLocation.findOne({ subLocationId : subLocationId }).exec((err, tag) => {
 
 exports.updateOneSubLocal = (req, res) => {
 var subLocationId = req.query.subLocationId;
+var locationId = req.query.locationId;
 var myquery = { subLocationId : subLocationId }
 var newV = req.body;
 
+if (_.isEmpty(locationId)) {
+    return res.status(400).json({
+        error: 'locationId cannot be empty'
+    });
+}
+
+if (_.isEmpty(subLocationId)) {
+    return res.status(400).json({
+        error: 'subLocationId cannot be empty'
+    });
+}
+
 subLocation.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
-        return res.status(400).json({
-            error: 'cant update Animals'
+    // if (err) {
+    //     return res.status(400).json({
+    //         error: 'cant update Animals'
+    //     });
+    // }
+    // res.json("Message: Successfully updated Sub location " + subLocationId);
+    subLocation.find(
+        { 
+            locationId:locationId
+        }
+      ).sort({ "_id": -1 }).exec((err, tag) => {
+            if (_.isEmpty(tag)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({tag});
         });
-    }
-    res.json("Message: Successfully updated Sub location " + subLocationId);
 });
 };
 
 exports.deleteOneSubLocation = (req, res) => {
     var subLocationId = req.query.subLocationId;
-    console.log("dasdas " + subLocationId)
+    var locationId = req.query.locationId;
+
+
+    if (_.isEmpty(locationId)) {
+        return res.status(400).json({
+            error: 'locationId cannot be empty'
+        });
+    }
+    
+    if (_.isEmpty(subLocationId)) {
+        return res.status(400).json({
+            error: 'subLocationId cannot be empty'
+        });
+    }
+
     subLocation.deleteOne({ subLocationId : subLocationId }).exec((err, tag) => {
-        if (err) {
-            return res.status(400).json({
-                error: 'product not found'
-            });
+        // if (err) {
+        //     return res.status(400).json({
+        //         error: 'product not found'
+        //     });
             
-        }
-        res.json({ "identifier": "Delete One Sub location"});
+        // }
+        // res.json({ "identifier": "Delete One Sub location"});
+        subLocation.find(
+            { 
+                locationId:locationId
+            }
+          ).sort({ "_id": -1 }).exec((err, tag) => {
+                if (_.isEmpty(tag)) {
+                    return res.status(400).json({
+                        error: 'lookup not found'
+                    });
+                }
+                res.json({tag});
+            });
     });
     };
 

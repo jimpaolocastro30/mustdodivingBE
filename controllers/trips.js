@@ -27,7 +27,7 @@ exports.addMainTrips = (req, res) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "identifier": "GetAll-Trips", tag});
+        res.json({tag});
     });
 });
 };
@@ -115,7 +115,7 @@ trips.updateOne(myquery, newV).exec((err, tag) => {
                 error: 'lookup not found'
             });
         }
-        res.json({ "identifier": "Update-Trips", tag});
+        res.json({tag});
     });
 });
 };
@@ -139,7 +139,7 @@ exports.deleteOneTrips = (req, res) => {
                     error: 'lookup not found'
                 });
             }
-            res.json({ "identifier": "Delete-Trips", tag});
+            res.json({tag});
         });
     });
     };

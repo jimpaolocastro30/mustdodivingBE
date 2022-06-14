@@ -18,15 +18,23 @@ exports.addManageMedia = (req, res) => {
 
 
   mmedias.save((err, data) => {
-      console.log("check" + err)
-      if (err) {
-          return res.status(400).json({
-              error: err.errmsg
-          });
-      }
+      // console.log("check" + err)
+      // if (err) {
+      //     return res.status(400).json({
+      //         error: err.errmsg
+      //     });
+      // }
 
-      res.json("Manage Media added! " + photosId); // dont do this res.json({ tag: data });
-  });
+      // res.json("Manage Media added! " + photosId); // dont do this res.json({ tag: data });
+      mmedia.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+        if (_.isEmpty(tag)) {
+            return res.status(400).json({
+                error: 'lookup not found'
+            });
+        }
+        res.json({tag});
+    });
+    });
 };
 
 exports.getAllManageMedia = (req, res) => {
@@ -118,8 +126,6 @@ exports.updateOneManageMedia = (req, res) => {
   const slug = req.params.slug;
 var myquery = { _id: slug }
 var newV = req.body;
-
-console.log("dasdasda" + newV)
 
 mmedia.updateOne(myquery, newV).exec((err, tag) => {
   mmedia.find({}).sort({ "_id": -1 }).exec((err, tag) => {

@@ -119,13 +119,17 @@ exports.updateOneManageMedia = (req, res) => {
 var myquery = { _id: slug }
 var newV = req.body;
 
+console.log("dasdasda" + newV)
+
 mmedia.updateOne(myquery, newV).exec((err, tag) => {
-    if (err) {
+  mmedia.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+    if (_.isEmpty(tag)) {
         return res.status(400).json({
-            error: 'cant update Trips'
+            error: 'lookup not found'
         });
     }
-    res.json("Message: Successfully updated Manage Media " + slug);
+    res.json({tag});
+});
 });
 };
 
@@ -133,14 +137,22 @@ mmedia.updateOne(myquery, newV).exec((err, tag) => {
 exports.deleteOneManageMedia = (req, res) => {
       const slug = req.params.slug;
     mmedia.deleteOne({ _id: slug }).exec((err, tag) => {
-        if (err) {
-            return res.status(400).json({
-                error: 'product not found'
-            });
+        // if (err) {
+        //     return res.status(400).json({
+        //         error: 'product not found'
+        //     });
             
-        }
-        res.json({ "identifier": "Delete One Manage Media :" });
-    });
+        // }
+        // res.json({ "identifier": "Delete One Manage Media :" });
+        mmedia.find({}).sort({ "_id": -1 }).exec((err, tag) => {
+          if (_.isEmpty(tag)) {
+              return res.status(400).json({
+                  error: 'lookup not found'
+              });
+          }
+          res.json({tag});
+      });
+      });
     };
 
 exports.addLogo = (req, res) => {

@@ -15,7 +15,7 @@ const watermarkSchema = new mongoose.Schema(
             type: String
         },
         isWatermarkPhoto: {
-            type: Number
+            type: String
         },
         DateCreated:{
             type:Date

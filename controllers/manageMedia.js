@@ -194,15 +194,17 @@ exports.addLogo = (req, res) => {
   
     uploadSingle(req, res, async (err) => {
       var fileName = req.file.location;
+      var themes = req.body.themes;
+      console.log("8===D" + themes)
       var imageCaption = 'dasdasdsadas dasdasdasd';
       var loadedImage;
 
       if (err)
         return res.status(400).json({ success: false, message: err.message });
   
-      await logoM.create({ logoId: logoId, logoInputs: fileName , DateCreated: DateCreated});
+      await logoM.create({ logoId: logoId, logoInputs: fileName, themes: themes, DateCreated: DateCreated});
   
-      res.status(200).json({ data: fileName });
+      res.status(200).json({ data: fileName, theme: themes });
     });
   }
 

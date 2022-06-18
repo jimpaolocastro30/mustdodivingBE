@@ -8,6 +8,9 @@ const manageMediaSchema = new mongoose.Schema(
         logoInputs: {
             type: String
         },
+        themes: {
+            type: String
+        },
         DateCreated:{
             type:Date
         }

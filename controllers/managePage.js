@@ -13,7 +13,7 @@ exports.addManagePage = (req, res) => {
   let dateCreated = new Date();
   let dateUpdated = new Date();
   const { path, published, description, title, socialMedia, body, logo, menu, subscription,  topbar} = req.body;
-  let mmedias = new mpage({ path, published, description, title, socialMedia, body, logo, menu, subscription,  topbar, dateCreated, dateUpdated});
+  let mmedias = new mpage({ pageId,path, published, description, title, socialMedia, body, logo, menu, subscription,  topbar, dateCreated, dateUpdated});
 
 
   mmedias.save((err, data) => {

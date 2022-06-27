@@ -5,195 +5,59 @@ const fManagePageSchema = new mongoose.Schema(
         pageId: {
             type: String
         },
-        pageUrl: {
+        path: {
             type: String
         },
-        pageTitle: {
+        published: {
             type: String
         },
-        pageDescription:{
-            type:String
+        description: {
+            type: String
+        },
+        title: {
+            type: String
+        },
+        socialMedia:{
+            type: {},
+            min: 200,
+            max: 2000000
+        },
+        body:{
+            type: {},
+            min: 200,
+            max: 2000000
+        },
+        logo:{
+            type: {},
+            min: 200,
+            max: 2000000
+        },
+        menu:{
+            type: {},
+            min: 200,
+            max: 2000000
+        },
+        socialMedia:{
+            type: {},
+            min: 200,
+            max: 2000000
+        },
+        subscription:{
+            type: {},
+            min: 200,
+            max: 2000000
         },
         topbar:{
-            type:String
-        },
-        topbarBgColor:{
-            type:String
-        },
-        topbarSize:{
-            type:String
-        },
-        menuFontFamily:{
-            type:String
-        },
-        menuFontSize:{
-            type:String
-        },
-        menuFontColor:{
-            type:String
-        },
-        menuBgColor:{
-            type:String
-        },
-        menuSize:{
-            type:String
-        },
-        menuHorizontalPosition:{
-            type:String
-        },
-        menuVerticalPosition:{
-            type:String
-        },
-        menuType:{
-            type:String
-        },
-        menuHoverColor:{
-            type:String
-        },
-        menuLogoVerticalPosition:{
-            type:String
-        },
-        menuLogoHorizontalPosition:{
-            type:String
-        },
-        menuLogoType:{
-            type:String
-        },
-        menuLogoSize:{
-            type:String
-        },
-        menuLogoLocation:{
-            type:String
-        },
-        mainBgColor:{
-            type:String
-        },
-        mainMediaBg:{
-            type:String
-        },
-        smType_:{
-            type:String
-        },
-        socialMediaAccounts:{
             type: {},
             min: 200,
             max: 2000000
         },
-        mediaFilterer:{
-            type:String
-        },
-        footerSubscription:{
-            type:String
-        },
-        footerSubscriptionText:{
-            type:String
-        },
-        footerSubscriptionHorizontalPosition:{
-            type:String
-        },
-        footerSubscriptionVerticalPosition:{
-            type:String
-        },
-        footerBgColor:{
-            type:String
-        },
-        footerSize:{
-            type:String
-        },
-        footerHoverColor:{
-            type:String
-        },
-        footerFontFamily:{
-            type:String
-        },
-        footerFontSize:{
-            type:String
-        },
-        footerFontColor:{
-            type:String
-        },
-        footerLogoType:{
-            type:String
-        },
-        footerLogoSize:{
-            type:String
-        },
-        footerLogoHorizontalPosition:{
-            type:String
-        },
-        footerLogoVerticalPosition:{
-            type:String
-        },
-        footerCopyrightsText:{
-            type:String
-        },
-        footerCopyrightsFontSize:{
-            type:String
-        },
-
-        footerCopyrightsFontFamily:{
-            type:String
-        },
-
-        footerCopyrightsColor:{
-            type:String
-        },
-
-        headerMedia:{
-            type:String
-        },
-
-        headerMediaType:{
-            type:String
-        },
-
-        headerSlogan:{
-            type:String
-        },
-
-        headerSloganFontFamily:{
-            type:String
-        },
-
-        headerSloganFontSize:{
-            type:String
-        },
-
-        headerSloganColor:{
-            type:String
-        },
-
-        headerYoutubeLink:{
-            type:String
-        },
-
-        headerMediaFiles:{
-            type: {},
-            min: 200,
-            max: 2000000
-        },
-        mainContentItems:{
-            type: {},
-            min: 200,
-            max: 2000000
-        },
-        mainContentRows:{
-            type: {},
-            min: 200,
-            max: 2000000
-        }
-        ,
         dateCreated:{
             type:Date
         },
 
         dateUpdated:{
             type:Date
-        },
-
-        isActive:{
-            type:String,
-            default:1
         },
 
     },

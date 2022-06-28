@@ -1,5 +1,6 @@
 const mmedia = require('../models/managePhotoVideo');
 const logoM = require('../models/manageMedia')
+const mlogO = require('../models/manageMedia')
 const watermarkM = require('../models/watermarkManagement')
 var moment = require("moment");
 const aws = require("aws-sdk");
@@ -209,13 +210,28 @@ exports.addLogo = (req, res) => {
   }
 
   exports.getLogo = (req, res) => {
-      logoM.findOne({}).sort({ "_id":-1 }).exec((err, tag) => {
+      logoM.find({}).sort({ "_id":-1 }).exec((err, tag) => {
             if (_.isEmpty(tag)) {
                 return res.status(400).json({
                     error: 'lookup not found'
                 });
             }
             res.json({ "identifier": "Get archives", tag});
+        });
+    
+    };
+
+    exports.getLogoTheme = (req, res) => {
+      var themes = req.query.themes;
+
+      console.log("dasdac " + themes)
+      mlogO.find({ themes: themes }).exec((err, tagses) => {
+            if (_.isEmpty(tagses)) {
+                return res.status(400).json({
+                    error: 'lookup not found'
+                });
+            }
+            res.json({ "identifier": "Get themes", tagses});
         });
     
     };

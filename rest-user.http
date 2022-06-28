@@ -1,6 +1,6 @@
 @url = http://localhost:5000/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NDg4MTUxOTEsImV4cCI6MTY0ODkwMTU5MX0.H7eCmwgZf8EDi920yZO9bPQFcOXgZToVHWg1I6EAIhw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ4MDMzNDdmNjYwNDMxMTBmNWY4Y2MiLCJpYXQiOjE2NTYzOTQ0NTAsImV4cCI6MTY1NjQ4MDg1MH0.VkHTHq2J7y5bw5atnRwEchuj5C8d2EP-yHl0rNBZHAU
 
 ## User Registration ##
 POST {{url}}/signup
@@ -21,7 +21,7 @@ POST {{url}}/signin
 Content-Type: application/json
 
 {
-   "email" : "john.restivo@mustdodive.com",
+   "email" : "john",
    "password" : "12345678"
 }
 
@@ -361,3 +361,13 @@ Authorization: Bearer {{token}}
     }
   ]
 }
+
+
+
+
+### User Signin Mobile number ###
+GET {{url}}/admin/get/theme/logo?themes="dark"
+
+
+################
+GET {{url}}/admin/get/logo

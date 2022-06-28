@@ -147,13 +147,11 @@ router.get('/public/get/one/none/photo-video', getAllNonePublicPhotoVideo);
 router.get('/public/get/one/tes/pv', getAllNonePublicPhotoVideo2);
 router.get('/public/get/one/test/vp', getAllNonePublicPhotoVideo3);
 router.get('/public/get/main/page', getAllPublicManageMedia);
-
 router.get('/public/get/main/animal', getAllAnimalMainSub);
-
 router.get('/public/get/main/location', getAllLocationMainSub);
-
-
-
+router.get('/public/get/all/media', getAllManageMedia)
+router.get('/public/get/all/trip', getAllTrips)
+router.get('/public/get/all/logo', getLogo)
 
 module.exports = router;
  

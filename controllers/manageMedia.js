@@ -171,6 +171,8 @@ exports.addLogo = (req, res) => {
 
   var transactionPrefix = "logoDive";
   var logoId = transactionPrefix + moment().format("x");
+  var texts = req.query.texts;
+  const { text,themes } = req.body;
   let DateCreated = new Date();
     const upload = (bucketName) =>
     multer({
@@ -187,7 +189,22 @@ exports.addLogo = (req, res) => {
     });
 
 
+    if(texts == 1){
 
+      let videos = new logoM({ logoId: logoId, logoInputs: text, themes: themes, DateCreated: DateCreated});
+  
+      videos.save((err, data) => {
+        console.log("check" + err)
+        if (err) {
+            return res.status(400).json({
+                error: err.errmsg
+            });
+        }
+  
+        res.json("logo added! " + data); // dont do this res.json({ tag: data });
+    });
+    } else {
+  
     
     const uploadSingle = upload("mdodive").single(
       "croppedLogo"
@@ -196,7 +213,6 @@ exports.addLogo = (req, res) => {
     uploadSingle(req, res, async (err) => {
       var fileName = req.file.location;
       var themes = req.body.themes;
-      console.log("8===D" + themes)
       var imageCaption = 'dasdasdsadas dasdasdasd';
       var loadedImage;
 
@@ -207,6 +223,7 @@ exports.addLogo = (req, res) => {
   
       res.status(200).json({ data: fileName, theme: themes });
     });
+  }
   }
 
   exports.getLogo = (req, res) => {

@@ -16,7 +16,7 @@ const { signup, signin, signout, requireSigninUser, adminMiddleware,
 const {addMainTrips, getAllTrips, getOneTrips, updateOneTrips, deleteOneTrips} = require('../controllers/trips');
 
 const {addManageMedia, getAllManageMedia, getOneManageMedia, updateOneManageMedia, 
-  deleteOneManageMedia, addLogo, deleteLogo, getLogo, addWaterMarkPhoto, addWaterMarkLetter, getWatermark, deleteWatermark, getLogoTheme} = require('../controllers/manageMedia');
+  deleteOneManageMedia, addLogo,addLogoText, deleteLogo, getLogo, addWaterMarkPhoto, addWaterMarkLetter, getWatermark, deleteWatermark, getLogoTheme} = require('../controllers/manageMedia');
 
 const {addPhotosVideo, getArchived, deletePhotoVid, updatePhotoWatermark} = require('../controllers/managePhotoVideo');
  
@@ -111,6 +111,7 @@ router.get('/admin/get/one/user/:slug', requireSigninUser, adminMiddleware, read
 router.put('/admin/update/user/:slug', requireSigninUser, adminMiddleware, updateUser);
 
 router.post('/admin/add/logo', requireSigninUser, addLogo);
+router.post('/admin/add/text/logo', requireSigninUser, addLogoText);
 router.get('/admin/get/logo', getLogo);
 router.get('/admin/get/themes/logo', getLogoTheme);
 router.delete('/admin/delete/logo', requireSigninUser, deleteLogo);

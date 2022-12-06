@@ -88,7 +88,7 @@ router.put('/admin/update/trips', requireSigninUser, updateOneTrips);
 router.delete('/admin/delete/trips', requireSigninUser, deleteOneTrips);
 
 
-router.post('/admin/post/video-photo', requireSigninUser, addPhotosVideo);
+router.post('/admin/post/video-photo', requireSigninUser, upload.single('croppedImage'), addPhotosVideo);
 router.get('/admin/get/video-photo', requireSigninUser, getArchived);
 router.delete('/admin/delete/video-photo', requireSigninUser, deletePhotoVid);
 router.put('/admin/update/video-photo', requireSigninUser, updatePhotoWatermark);

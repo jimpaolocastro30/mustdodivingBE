@@ -104,18 +104,31 @@ const { video } = req.body;
   });
   } else {
 
-    uploadSingle(req, res, async (err) => {
-      var fileName = req.file.location;
-      if (err)
-        return res.status(400).json({ success: false, message: err.message });
+    // uploadSingle(req, res, async (err) => {
+    //   var fileName = req.file.location;
+    //   if (err)
+    //     return res.status(400).json({ success: false, message: err.message });
   
-      await User.create({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
+    //   await User.create({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
   
-      res.status(200).json({ data: fileName });
-    });
-  }
- 
+    //   res.status(200).json({ data: fileName });
+    // });
+    var fileName = req.file.destination + req.file.filename;
+    let photo = new User({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
+    console.log("check" + fileName)
+
+    photo.save((err, data) => {
+   
+      if (err) {
+          return res.status(400).json({
+              error: err.errmsg
+          });
+      }
+
+      res.json("video added! " + fileName);
+  });
 }
+};
 
 exports.updatePhotoWatermark = async(req, res, next) => {
   var isVideo = req.query.isVideo;
@@ -255,7 +268,6 @@ exports.updatePhotoWatermark = async(req, res, next) => {
 exports.getArchived = (req, res) => {
 
   const pagination = req.query.pagination ? parseInt(req.query.pagination) : 20;
-    console.log("dasdadsa " + pagination)
     User.find({}).sort({ "_id":-1 }).limit(pagination).exec((err, tag) => {
           if (_.isEmpty(tag)) {
               return res.status(400).json({

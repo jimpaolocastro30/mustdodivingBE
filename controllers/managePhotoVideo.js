@@ -113,10 +113,9 @@ const { video } = req.body;
   
     //   res.status(200).json({ data: fileName });
     // });
-    var baselink = "https://mustdo-diving.onrender.com/"
     var fileName = req.file.destination + req.file.filename;
-    let photo = new User({ photoId: photoId, photosVideo: baselink+fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
-    console.log("check" + fileName)
+    let photo = new User({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
+
 
     photo.save((err, data) => {
    
@@ -126,7 +125,7 @@ const { video } = req.body;
           });
       }
 
-      res.json("video added! " + baselink+fileName);
+      res.json("video added! " + fileName);
   });
 }
 };

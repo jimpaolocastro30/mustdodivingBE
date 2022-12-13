@@ -114,8 +114,8 @@ const { video } = req.body;
     //   res.status(200).json({ data: fileName });
     // });
     const fileName = req.file.filename;
-    console.log(fileName)
-    let photo = new User({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
+    const baseUrls = "https://mustdo-diving.onrender.com/uploads/"
+    let photo = new User({ photoId: photoId, photosVideo: baseUrls+fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
 
 
     photo.save((err, data) => {

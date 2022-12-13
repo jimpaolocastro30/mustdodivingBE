@@ -491,6 +491,7 @@ exports.getUserProfile = (req, res) => {
 exports.uploadPictureUser = (req, res) => {
     const token = req.headers.authorization.split (' ')[1]
     const data = decode_token (token)
+    console.log("dasdsa " + JSON.stringify(data))
     const image = req.file.destination + req.file.filename
     User.findOne({ _id : data }).exec((err, user) => {
         const { Firstname , Lastname } = user;

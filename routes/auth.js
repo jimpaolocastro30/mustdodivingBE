@@ -23,7 +23,19 @@ const {addPhotosVideo, getArchived, deletePhotoVid, updatePhotoWatermark} = requ
 const {addMainUrl, addSubUrl, getOneMainUrl, getOneSubUrl, updateOneMainUrl, updateOneSubUrl, deleteOneMainUrl, deleteOneSubUrl, getSubUrl, getAllMainUrl, getOnePublicPhotoVideo,getAllNonePublicPhotoVideo, getAllNonePublicPhotoVideo2, getAllNonePublicPhotoVideo3, getAllPublicManageMedia } = require('../controllers/url');
 
 const {addManagePage, getAllManagePage, getOneManagePage, deleteOneManagePage, updateOneManagePage} = require('../controllers/managePage');
-  const fileFilter = (req, file, cb) => {
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename: function (req, file, cb) {
+    const now = new Date().toISOString();
+    const date = now.replace(/:/g, '-');
+    cb(null, date + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
     // reject a file
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       cb(null, true);
@@ -32,8 +44,9 @@ const {addManagePage, getAllManagePage, getOneManagePage, deleteOneManagePage, u
     }
   };
   
-  const upload = multer({limits: {
-
+  const upload = multer({
+    storage: storage,
+    limits: {
     fileSize: 1024 * 1024 * 5
   },
   fileFilter: fileFilter,

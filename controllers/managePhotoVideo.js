@@ -39,7 +39,7 @@ var moment = require("moment");
 //       res.json("image/video added! " + photosVideo); // dont do this res.json({ tag: data });
 //   });
 // };
-
+global.__basedir = __dirname; 
 
 
 const aws = require("aws-sdk");
@@ -58,33 +58,33 @@ const s3 = new aws.S3({
 
 
 exports.addPhotosVideo = (req, res) => {
-  const s3 = new aws.S3({
-      accessKeyId: process.env.AWS_ACCESS_KEY,
-      secretAccessKey: process.env.AWS_SECRET_KEY,
-      region: process.env.AWS_BUCKET_REGION,
-    });  
+//   const s3 = new aws.S3({
+//       accessKeyId: process.env.AWS_ACCESS_KEY,
+//       secretAccessKey: process.env.AWS_SECRET_KEY,
+//       region: process.env.AWS_BUCKET_REGION,
+//     });  
 
 let DateCreated = new Date();
 var isVideo = req.query.isVideo;
 const { video } = req.body;
 
-  const upload = (bucketName) =>
-  multer({
-    storage: multerS3({
-      s3,
-      bucket: bucketName,
-      metadata: function (req, file, cb) {
-        cb(null, { fieldName: file.fieldname });
-      },
-      key: function (req, file, cb) {
-        cb(null, `image-${Date.now()}.jpeg`);
-      },
-    }),
-  });
+//   const upload = (bucketName) =>
+//   multer({
+//     storage: multerS3({
+//       s3,
+//       bucket: bucketName,
+//       metadata: function (req, file, cb) {
+//         cb(null, { fieldName: file.fieldname });
+//       },
+//       key: function (req, file, cb) {
+//         cb(null, `image-${Date.now()}.jpeg`);
+//       },
+//     }),
+//   });
 
-  const uploadSingle = upload("mdodive").single(
-    "croppedImage"
-  );
+//   const uploadSingle = upload("mdodive").single(
+//     "croppedImage"
+//   );
   var transactionPrefix = "manageMedia";
   var photoId = transactionPrefix + moment().format("x");
 
@@ -113,7 +113,8 @@ const { video } = req.body;
   
     //   res.status(200).json({ data: fileName });
     // });
-    var fileName = req.file.destination + req.file.filename;
+    const fileName = req.file.filename;
+    console.log(fileName)
     let photo = new User({ photoId: photoId, photosVideo: fileName , isVideo: 0, isWatermark: 0, DateCreated: DateCreated});
 
 

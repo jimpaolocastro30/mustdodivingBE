@@ -126,7 +126,7 @@ const { video } = req.body;
           });
       }
 
-      res.json("video added! " + fileName);
+      res.json("video added! " + baseUrls+fileName);
   });
 }
 };
